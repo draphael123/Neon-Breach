@@ -19,7 +19,8 @@ export function driverInput(profile,s,level){
   // Pure pursuit on the centreline point ahead (distance scales with speed), plus yaw-rate damping.
   const lookDist=Math.max(14,Math.min(48,s.speed*P.lookS));let tgt;const entry=P.takeRisks&&!s.onRisk&&A.riskRoutes.find(r=>s.t>=r.from-.012&&s.t<=r.from+.012);if(s.onRisk){const r=A.riskRoutes.find(x=>x.label===s.onRisk);tgt=A.riskAt(r,s.riskU+lookDist/r.length)}else if(entry)tgt=A.riskAt(entry,.14);else tgt=A.at(s.t+lookDist/A.LENGTH,P.laneGain?0:s.lane*.6);const want=Math.atan2(tgt.x-s.x,tgt.z-s.z);
   const err=angle(want-s.heading),yawRate=angle(s.heading-(inp._h??s.heading))*60;inp._h=s.heading;
-  inp.steer=Math.max(-1,Math.min(1,err*P.gain-yawRate*P.damp));
+  let dodge=0;for(const b of A.collisionBodies){let d=b.t-s.t;d-=Math.round(d);const ahead=d*A.LENGTH;if(ahead>4&&ahead<46&&Math.abs(b.lane-s.lane)<b.radius+2.6){dodge=(s.lane>=b.lane?1:-1)*(1-ahead/46)*1.2}}
+  inp.steer=Math.max(-1,Math.min(1,err*P.gain-yawRate*P.damp+dodge));
   let minR=1e6;if(P.brakeLook){for(let u=.004;u<=P.brakeLook;u+=.004)minR=Math.min(minR,bendRadius(s.t+u))}
   const vSafe=P.brakeLook?safeSpeed(minR,level)*P.margin:1e6;
   const over=s.speed>vSafe;inp.brake=over?1:0;inp.throttle=over?0:1;

@@ -1,6 +1,6 @@
 // Reactions: crowds that flinch, verge traffic that pulls aside, marshals and boards that answer the race, camera drones.
 export function buildReactions(W){
-  const {THREE,scene,box,material,onTrack,at,yaw,wrap,level,cyan,pink,amber,dark,white,worldEvents,LENGTH,TRACK_HALF_WIDTH,driftZones,brakeCorners,chokes,signMeshes}=W;
+  const {THREE,scene,box,material,onTrack,at,yaw,wrap,level,cyan,pink,amber,dark,white,worldEvents,worldState,LENGTH,TRACK_HALF_WIDTH,driftZones,brakeCorners,chokes,signMeshes}=W;
   const glow=(c,i)=>new THREE.MeshStandardMaterial({color:c,emissive:c,emissiveIntensity:i,roughness:.5});
   const dist=(a,b)=>{let d=b-a;d-=Math.round(d);return d};
   const dummy=new THREE.Object3D();
@@ -37,7 +37,7 @@ export function buildReactions(W){
     crowds,vans,marshals,boards,drones,
     update(now,ctx){if(!ctx)return;
       // crowds: only the two nearest do work
-      crowds.forEach(c=>{const d=Math.abs(dist(ctx.t,c.t))*LENGTH;c.near=d<45});
+      let nearest=1e9;crowds.forEach(c=>{const d=Math.abs(dist(ctx.t,c.t))*LENGTH;c.near=d<45;if(d<nearest)nearest=d});worldState.crowdNear=Math.max(0,1-nearest/55);
       crowds.filter(c=>c.near).slice(0,2).forEach(c=>{const want=ctx.isDrifting?1:.3;c.lean+=(want-c.lean)*.15;c.pose(now,c.lean*(.6+Math.sin(now*.01)*.2));c.flashes.forEach(f=>f.visible=ctx.isDrifting&&Math.random()>.85)});
       crowds.filter(c=>!c.near&&c.lean>.01).forEach(c=>{c.lean=0;c.pose(now,0);c.flashes.forEach(f=>f.visible=false)});
       // vans

@@ -37,6 +37,14 @@ The opening four races form a mechanically varied city campaign; desert and pola
 - Traffic belongs to roads: overpasses with piers carry cars across the circuit, service lanes on both verges carry the vans that pull aside for you, and people cross the sky-bridges and walk the quays and markets. Rivals ride the ramps and fly, except the cautious one who steers around them.
 - The world runs on its own clock: window banks pulse and blink across the skyline, distant traffic streams along elevated arteries, aircraft cross the sky with strobes, and each circuit has its own moving set piece.
 
+## Cups, cars, and the tutorial
+
+- **City Cup** runs Midnight, Floodline, Skyline, and Blackout back to back against three named rivals (Rin, Dusk, Vesper). Points are 10/7/5/3 per round plus a drift-rank bonus. **Breach Season** runs all six. Difficulty is locked when a cup starts. Each cup round opens with a flown track overview and the champion gets a podium orbit.
+- Winning the City Cup unlocks by difficulty: Cruise gives the Ember paint, Street adds Ghost, Outlaw adds the HALO chassis and Ultraviolet paint. Winning the Breach Season gives Gold Leaf, and on Outlaw the HALO chassis too.
+- Three chassis: KOI is balanced, ION trades top speed for grip, HALO trades grip for slide and pays more score per degree. Pick chassis and paint on the title screen.
+- Rivals make mistakes and occasionally spin out, and one hazard per circuit falls onto the road on lap two and stays there with a real collider.
+- **How to Drift** on the title screen is an eight-lesson guided run on Midnight with no rivals: throttle, drift, countersteer, apex, bank, boost, the risk route, and the ramp.
+
 The title screen shows every circuit as a card with a still, its mechanic, its route features, your best time, and your license.
 
 ## Controls

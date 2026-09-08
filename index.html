@@ -25,6 +25,11 @@
         <h1>NEON<br><em>BREACH</em><span id="worldMark">夜 / 侵入</span></h1>
         <p><span id="circuitTagline">Six districts. Three laps. One continuous line.</span><br><span id="circuitPromise">Hold the slide. Own the night.</span></p>
         <button id="start" class="primary">ENTER THE CIRCUIT <span>↗</span></button>
+        <button id="cupCity" class="secondary season">CITY CUP <span>4 rounds · Midnight to Blackout · unlocks by difficulty</span></button>
+        <button id="cupBreach" class="secondary season">BREACH SEASON <span>all six circuits</span></button>
+        <div class="carSelect" id="carSelect" aria-label="Choose car"></div>
+        <div class="carSelect paints" id="paintSelect" aria-label="Choose paint"></div>
+        <button id="tutorialBtn" class="secondary">HOW TO DRIFT · TUTORIAL</button>
         <button id="settings" class="secondary">SYSTEM SETTINGS</button>
         <nav class="circuitSelect" id="circuitSelect" aria-label="Choose circuit"></nav>
         <div class="licenseBoard" id="licenseBoard" aria-label="Circuit license progress"></div>
@@ -63,6 +68,8 @@
             <option value="high">High detail + glow</option>
           </select>
         </label>
+        <label class="hiddenSetting">Paint <select id="skin"><option value="stock">STOCK</option><option value="ember">EMBER</option><option value="ghost">GHOST</option><option value="ultraviolet">ULTRAVIOLET</option><option value="goldleaf">GOLD LEAF</option></select></label>
+        <label class="hiddenSetting">Car <select id="car"><option value="koi">KOI</option><option value="ion">ION</option><option value="halo">HALO</option></select></label>
         <label>Rival pace
           <select id="difficulty">
             <option value="casual">Cruise</option>
@@ -101,6 +108,7 @@
         <div class="eyebrow" id="endTag"></div>
         <h2 id="endTitle" tabindex="-1"></h2>
         <p id="endText"></p>
+        <div id="seasonBlock" class="seasonBlock hidden"></div>
         <div id="results"></div>
         <button id="retry" class="primary">RUN IT AGAIN ↗</button>
         <button id="nextCircuit" class="secondary">NEXT CIRCUIT</button>
@@ -121,6 +129,7 @@
     </div>
     <div class="objective"><span>LAP</span><strong id="cores">1 / 3</strong></div>
     <div id="countdown" class="hidden" aria-live="assertive">3</div>
+    <div id="overviewCap" class="overviewCap hidden"><span id="ovRound"></span><strong id="ovName"></strong><em id="ovDistrict"></em><small>PRESS ANY KEY TO SKIP</small></div>
     <div id="toast" aria-live="polite">READY TO SLIDE</div>
     <div class="racePosition"><span>POSITION</span><strong id="kills">4 / 4</strong></div>
     <div class="timing"><span>RACE <b id="timer">00:00.0</b></span><span>LAP <b id="currentLap">00:00.0</b></span></div>
@@ -129,6 +138,7 @@
     <div class="inputMode" id="inputMode">KEYBOARD</div>
     <div class="district"><span id="districtName">01 / NEON MARKET</span><small id="districtHint">Open straight · build speed</small></div>
     <div id="corner"></div>
+    <div id="tutor" class="tutor hidden"><span id="tutorStep"></span><strong id="tutorTitle"></strong><p id="tutorText"></p><div class="tutorMeter"><i id="tutorFill"></i></div></div>
     <div id="driftReadout"></div>
     <canvas id="minimap" aria-label="Circuit map with race positions"></canvas>
   </div>

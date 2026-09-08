@@ -65,3 +65,6 @@ A legible silhouette at every brake corner; each district's name, look, and one 
 
 ## Playtest feedback pass (same day)
 Rivals ride and jump ramps (rival one avoids them); orphan cars removed, traffic on overpasses with piers and service lanes, walkers on bridges and quays, one camera drone; circuit picker cards with thumbnails, mechanic, feature chips, best time, license; moment banners distinct from score toasts; boost drain 15%/s so any charge is a burst; audit covers dynamic props (movers placed before the snapshot, bank-aware ground, choke-aware road clip) and the bot checks the car is never inside a collider. Real hits fixed: district signs never had posts, floodgate rested across the road, tower-wave and sodium props hung in the air, risk-route piers stood on the road at route entrances, an overpass re-crossed the track.
+
+## Pass 3 — structure (same day)
+Cups (City Cup + Breach Season) with named rivals, points, locked difficulty, difficulty-tiered unlocks (paints + HALO), flown track overview before each cup round, podium orbit with confetti for the champion; rival spin-outs; one lap-two hazard per circuit with a real collider; three chassis; crowd swell, wind, boost sweep, bank chime; eight-lesson tutorial from the menu; cinematic attract camera and a countdown swoop. Ratings and next ideas for the four city circuits in CITY-CUP-NOTES.md.
