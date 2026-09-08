@@ -81,4 +81,4 @@ Improve it:
   between rounds with the cars on a grid**, and a fanfare when a rival overtakes you for the lead in the points.
 
 ## Status
-All twelve circuit ideas and the Drift King title and grid standings shipped the same day. Still open from the cup-level notes: the points-lead fanfare.
+All twelve circuit ideas and the Drift King title and grid standings shipped the same day. The points-lead fanfare shipped too: a banner in the standings, a moment toast, and a rising or falling sting when the lead changes hands.

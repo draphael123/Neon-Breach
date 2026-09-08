@@ -67,3 +67,5 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:8;opac
 .seasonBlock.champion{background:linear-gradient(90deg,#ffd16633,#ff4f9222);border-left-color:#ffd166}.seasonBlock.champion h3{color:#ffd166}
 
 #end.side{justify-content:flex-start;padding-left:5%}#end.side .dialog{margin:auto 0}
+
+.seasonBlock .lead{margin:0 0 8px;padding:6px 8px;font-size:12px;font-weight:700;letter-spacing:2px;border:0;animation:leadPulse 1.2s ease-in-out 3}.seasonBlock .lead.good{color:#061419;background:#5bff8a}.seasonBlock .lead.bad{color:#fff;background:#ff4f92}@keyframes leadPulse{0%,100%{transform:none}50%{transform:scale(1.03)}}
