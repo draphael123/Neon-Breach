@@ -31,6 +31,7 @@
           <a href="?level=solara" data-level="solara"><b>02</b><span>SOLARA</span><small>Desert / flowing</small></a>
           <a href="?level=cryoline" data-level="cryoline"><b>03</b><span>CRYOLINE</span><small>Ice / technical</small></a>
         </nav>
+        <div class="licenseBoard" id="licenseBoard" aria-label="Circuit license progress"></div>
         <div id="recordSummary" class="recordSummary">NO RECORD / FIRST RUN</div>
         <div class="meta" id="circuitMeta">01 PLAYER <span>•</span> 03 LAPS <span>•</span> DRIFT CLASSIFIED</div>
       </div>
@@ -47,8 +48,8 @@
         <div class="eyebrow" id="briefLabel">RACE BRIEFING / MIDNIGHT CIRCUIT</div>
         <h2 id="briefTitle" tabindex="-1">Build one unbroken line.</h2>
         <p id="briefBody">Finish three long laps against three rivals. Position matters, but a clean drift score decides who truly owns the circuit.</p>
-        <p>Steer with A / D. Hold SHIFT while turning to initiate a drift; tap SPACE for a sharper handbrake rotation. Countersteer to hold angle. Release and drive clean to bank the chain.</p>
-        <p>Cross the lit apex zones while sliding to raise your multiplier. A wall hit breaks the chain. On mobile, auto-acceleration is enabled.</p>
+        <p id="controlHint">Steer with A / D. Hold SHIFT while turning to initiate a drift; tap SPACE for a sharper handbrake rotation. Countersteer to hold angle. Release and drive clean to bank the chain.</p>
+        <p>Cross the lit apex zones while sliding to raise your multiplier. Any wall or rival contact breaks the chain; a clean near miss adds score.</p>
         <button id="deploy" class="primary">LIGHTS OUT ↗</button>
       </div>
     </section>
@@ -126,6 +127,7 @@
     <div class="timing"><span>RACE <b id="timer">00:00.0</b></span><span>LAP <b id="currentLap">00:00.0</b></span></div>
     <div class="speed"><strong id="dashStatus">0</strong><span>KM/H</span></div>
     <div class="score"><span>DRIFT SCORE</span><strong id="totalScore">0</strong></div>
+    <div class="inputMode" id="inputMode">KEYBOARD</div>
     <div class="district"><span id="districtName">01 / NEON MARKET</span><small id="districtHint">Open straight · build speed</small></div>
     <div id="corner"></div>
     <div id="driftReadout"></div>

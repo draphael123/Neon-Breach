@@ -1,5 +1,6 @@
 import * as THREE from './three.module.js';
 import {circuits} from './levels.js';
+import {earnedLicense,licenseTitle} from './progression.js';
 import {readFileSync} from 'node:fs';
 
 const failures=[];
@@ -38,3 +39,8 @@ const dynamicSettingIds=['volume','musicVolume','quality','difficulty','effects'
 const missingIds=[...new Set([...referencedIds,...dynamicSettingIds].filter(id=>!htmlIds.has(id)))];
 if(missingIds.length){console.error(`Missing HTML ids: ${missingIds.join(', ')}`);process.exitCode=1}
 else console.log(`All ${new Set(referencedIds).size} game UI references resolve.`);
+
+const licenseCases=[['C',4,1],['B',4,1],['B',3,2],['A',2,2],['A',1,3],['S',4,3]];
+for(const [rank,place,expected] of licenseCases)if(earnedLicense(rank,place)!==expected){console.error(`License rule failed for rank ${rank}, place ${place}`);process.exitCode=1}
+if(licenseTitle([3,3,3])!=='BREACH MASTER'||licenseTitle([1,0,2])!=='2/3 CLASSIFIED'){console.error('License summary rule failed');process.exitCode=1}
+else console.log('All circuit license rules passed.');
