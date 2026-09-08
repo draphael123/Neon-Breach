@@ -1,7 +1,8 @@
 import * as THREE from './three.module.js';
 import {level} from './levels.js';
+export const TRACK_HALF_WIDTH=16;
 export const wrap=t=>((t%1)+1)%1;
-export const HALF_WIDTH=13;
+export const HALF_WIDTH=TRACK_HALF_WIDTH;
 const control=level.control;
 export const curve=new THREE.CatmullRomCurve3(control.map(p=>new THREE.Vector3(...p)),true,'centripetal');
 export const LENGTH=curve.getLength(),N=1200;

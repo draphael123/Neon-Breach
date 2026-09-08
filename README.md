@@ -2,6 +2,8 @@
 
 Neon Breach is a browser-based 3D drift racer built with Three.js and Web Audio. Link drifts across six districts, cross apex zones sideways to raise the multiplier, skim walls for risk bonuses, and drive clean sectors before banking the chain.
 
+Circuits use a 32 m road profile with wide drift lanes; signature interiors and infrastructure narrow selected sections into deliberate technical choke points.
+
 ## Circuits
 
 - **Midnight Circuit** — a 3.71 km neon precision course with the open Glasshouse atrium, physical columns, an elevated skyway, and a moving maglev chase.

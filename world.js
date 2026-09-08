@@ -1,5 +1,5 @@
 import * as THREE from './three.module.js';
-import {at,yaw,curve,samples,N,districts,driftZones} from './track.js';
+import {at,yaw,curve,samples,N,districts,driftZones,TRACK_HALF_WIDTH} from './track.js';
 import {level} from './levels.js';
 export const scene=new THREE.Scene();scene.background=new THREE.Color(level.sky);scene.fog=new THREE.FogExp2(level.fog,level.id==='midnight'?.0028:.0019);
 export const collisionBodies=[];
@@ -12,11 +12,11 @@ const cyan=material(level.edgeB,level.id==='solara'?1.15:2.2),pink=material(leve
 export function box(w,h,d,x,y,z,m,parent=scene){const a=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);a.position.set(x,y,z);parent.add(a);return a}
 function roadMesh(offset,width,m,raise=0){const vertices=[],indices=[];for(let i=0;i<=N;i++){for(const side of [-1,1]){const p=at(i/N,offset+side*width/2);vertices.push(p.x,p.y+raise,p.z)}if(i<N){const a=i*2;indices.push(a,a+2,a+1,a+1,a+2,a+3)}}const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));g.setIndex(indices);g.computeVertexNormals();const mesh=new THREE.Mesh(g,m);mesh.userData.road=true;scene.add(mesh)}
 box(2200,1,2200,0,-5,0,material(level.ground));const water=box(260,.1,620,310,-3,-70,material(level.id==='solara'?0x8a4c30:level.id==='cryoline'?0x87cadb:0x123c55,.25));
-roadMesh(0,29,material(level.id==='solara'?0x5d443d:0x293047),-.85);const wetRoad=material(level.road).clone();wetRoad.roughness=level.id==='solara'?.7:level.id==='cryoline'?.12:.24;wetRoad.metalness=level.id==='solara'?.2:level.id==='cryoline'?.46:.68;wetRoad.onBeforeCompile=shader=>{shader.vertexShader='varying vec3 vRoadWorld;\n'+shader.vertexShader;shader.vertexShader=shader.vertexShader.replace('#include <worldpos_vertex>','#include <worldpos_vertex>\nvRoadWorld=(modelMatrix*vec4(transformed,1.0)).xyz;');shader.fragmentShader='varying vec3 vRoadWorld;\n'+shader.fragmentShader;shader.fragmentShader=shader.fragmentShader.replace('#include <color_fragment>','#include <color_fragment>\nfloat grain=fract(sin(dot(floor(vRoadWorld.xz*28.0),vec2(12.9898,78.233)))*43758.5453);diffuseColor.rgb*=0.88+grain*0.2;');};roadMesh(0,26,wetRoad);roadMesh(-13,.3,pink,.12);roadMesh(13,.3,cyan,.12);
+roadMesh(0,TRACK_HALF_WIDTH*2+3,material(level.id==='solara'?0x5d443d:0x293047),-.85);const wetRoad=material(level.road).clone();wetRoad.roughness=level.id==='solara'?.7:level.id==='cryoline'?.12:.24;wetRoad.metalness=level.id==='solara'?.2:level.id==='cryoline'?.46:.68;wetRoad.onBeforeCompile=shader=>{shader.vertexShader='varying vec3 vRoadWorld;\n'+shader.vertexShader;shader.vertexShader=shader.vertexShader.replace('#include <worldpos_vertex>','#include <worldpos_vertex>\nvRoadWorld=(modelMatrix*vec4(transformed,1.0)).xyz;');shader.fragmentShader='varying vec3 vRoadWorld;\n'+shader.fragmentShader;shader.fragmentShader=shader.fragmentShader.replace('#include <color_fragment>','#include <color_fragment>\nfloat grain=fract(sin(dot(floor(vRoadWorld.xz*28.0),vec2(12.9898,78.233)))*43758.5453);diffuseColor.rgb*=0.88+grain*0.2;');};roadMesh(0,TRACK_HALF_WIDTH*2,wetRoad);roadMesh(-TRACK_HALF_WIDTH,.3,pink,.12);roadMesh(TRACK_HALF_WIDTH,.3,cyan,.12);
 // Low continuous crash rails, reflective shoulders, lane markings.
-roadMesh(-13.4,.65,material(0x34415c),.65);roadMesh(13.4,.65,material(0x34415c),.65);roadMesh(-12,.7,material(0x37435b),.04);roadMesh(12,.7,material(0x37435b),.04);
+roadMesh(-TRACK_HALF_WIDTH-.4,.65,material(0x34415c),.65);roadMesh(TRACK_HALF_WIDTH+.4,.65,material(0x34415c),.65);roadMesh(-TRACK_HALF_WIDTH+1,.7,material(0x37435b),.04);roadMesh(TRACK_HALF_WIDTH-1,.7,material(0x37435b),.04);
 function onTrack(t,lane=0){const g=new THREE.Group();g.position.copy(at(t,lane));g.rotation.y=yaw(t);scene.add(g);return g}
-for(let i=0;i<210;i++){let t=i/210;const g=onTrack(t);for(const x of [-4.2,4.2])box(.12,.04,2,x,.05,0,white,g);if(i%2===0){box(.15,1.5,.4,-13.4,1.2,0,pink,g);box(.15,1.5,.4,13.4,1.2,0,cyan,g)}}
+for(let i=0;i<210;i++){let t=i/210;const g=onTrack(t);for(const x of [-5.2,5.2])box(.12,.04,2,x,.05,0,white,g);if(i%2===0){box(.15,1.5,.4,-TRACK_HALF_WIDTH-.4,1.2,0,pink,g);box(.15,1.5,.4,TRACK_HALF_WIDTH+.4,1.2,0,cyan,g)}}
 for(let i=0;i<52;i++){const g=onTrack(i/52);for(const side of [-1,1]){box(.35,9,.35,side*16,4,0,dark,g);box(4,.18,.6,side*14.5,8.5,0,white,g)}if(g.position.y>7){box(4,g.position.y+5,5,0,-(g.position.y+5)/2,0,material(0x223047),g)}}
 let seed=level.id==='solara'?722:level.id==='cryoline'?309:120;const rnd=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296};
 if(level.id==='midnight'){
@@ -42,7 +42,7 @@ for(let i=0;i<30;i++){const x=-290-(i%5)*13,z=-60+Math.floor(i/5)*18,h=4+(i%3)*4
 for(const z of [-60,45,150]){box(2,60,2,-325,25,z,material(0xd28241));box(80,2,2,-295,55,z,amber);box(.15,35,.15,-265,38,z,white)}
 }
 // Finish gantry, quarter-lap gates and road grid.
-for(const t of [0,.25,.5,.75]){const g=onTrack(t);for(const side of [-1,1])box(.7,11,.7,side*14,5,0,t===0?cyan:amber,g);box(29,1.7,1,0,11,0,dark,g);box(29,.16,1.1,0,12,0,t===0?cyan:amber,g)}
+for(const t of [0,.25,.5,.75]){const g=onTrack(t);for(const side of [-1,1])box(.7,11,.7,side*(TRACK_HALF_WIDTH+1),5,0,t===0?cyan:amber,g);box(TRACK_HALF_WIDTH*2+3,1.7,1,0,11,0,dark,g);box(TRACK_HALF_WIDTH*2+3,.16,1.1,0,12,0,t===0?cyan:amber,g)}
 for(let i=0;i<13;i++)for(let j=0;j<2;j++){const g=onTrack(0);box(2,.06,1,-12+i*2,.12,j-.5,material((i+j)%2?0xd1f6ff:0x102030),g)}
 // Each circuit adds a dominant silhouette language, not just a palette swap.
 if(level.family==='city'&&level.id!=='midnight'){
