@@ -10,6 +10,17 @@ Neon Breach is a browser-based 3D drift racer built with Three.js and Web Audio.
 
 Each circuit has its own geometry, districts, handling tune, atmosphere, color system, AI pace, minimap, and local records. Choose a circuit from the title screen or use `?level=midnight`, `?level=solara`, or `?level=cryoline`.
 
+## Drift and race systems
+
+- Hold drift and steer to snap the rear into a slide; countersteer to maintain angle.
+- Long slides trigger Drift Lock and Deep Drift awards. Lit apexes increase flow and multiplier.
+- Drive cleanly after a chain to bank it. Wall, obstacle, and rival contact break the active chain.
+- Near-wall slides earn Wall Kiss bonuses. Clean districts add a smaller consistency award.
+- Circuit hazards are marked on the minimap and called out before the car reaches them.
+- Camera roll, speed-responsive weather, particles, skid marks, chassis load, rival drift animation, impact flashes, and optional haptics provide feedback without changing the racing line.
+- Results report lap splits, best chain, apex links, wall kisses, contacts, and a coaching prompt for the next run.
+- The fastest completed lap is recorded locally and replayed as a translucent, non-colliding ghost on later laps and runs.
+
 ## Controls
 
 - `W` / `↑`: accelerate
@@ -50,7 +61,7 @@ npm run validate
 
 Settings and personal records are stored locally in the browser.
 
-The Settings panel includes a sound-test mode for previewing engine, tyre, impact, race-cue, and music channels independently.
+The Settings panel includes a sound-test mode for previewing engine, tyre, impact, race-cue, and music channels independently. Tyre tone and soundtrack treatment change by circuit surface and theme.
 
 ## Credits
 

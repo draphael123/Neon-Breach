@@ -3,6 +3,8 @@ import {circuits} from './levels.js';
 import {readFileSync} from 'node:fs';
 
 const failures=[];
+if(new Set(circuits.map(level=>level.id)).size!==circuits.length)failures.push('Circuit ids must be unique');
+if(new Set(circuits.map(level=>level.record)).size!==circuits.length)failures.push('Circuit record namespaces must be unique');
 for(const level of circuits){
   const curve=new THREE.CatmullRomCurve3(level.control.map(p=>new THREE.Vector3(...p)),true,'centripetal');
   const count=900,samples=Array.from({length:count},(_,i)=>curve.getPointAt(i/count));
@@ -21,6 +23,9 @@ for(const level of circuits){
   if(minRemoteSeparation<34)failures.push(`${level.id}: remote track segments approach within ${minRemoteSeparation.toFixed(1)}m`);
   if(level.districts.length!==6)failures.push(`${level.id}: expected six districts`);
   if(level.driftZones.length!==6||level.driftZones.some(v=>v<=0||v>=1))failures.push(`${level.id}: invalid drift zones`);
+  if(level.rankBands.length!==3||level.rankBands.some((v,i,a)=>v<=0||i&&v<=a[i-1]))failures.push(`${level.id}: invalid rank bands`);
+  if(level.grip<.65||level.grip>1.1)failures.push(`${level.id}: grip tune is outside the supported range`);
+  if(level.topSpeed<=54*level.pace+5)failures.push(`${level.id}: expert rival pace leaves insufficient player headroom`);
   console.log(`${level.name.padEnd(18)} ${length.toFixed(0).padStart(4)}m  grade ${(maxGrade*100).toFixed(1).padStart(4)}%  clearance ${minRemoteSeparation.toFixed(1).padStart(5)}m`);
 }
 if(failures.length){console.error(failures.join('\n'));process.exitCode=1}else console.log('All circuit geometry checks passed.');
@@ -29,6 +34,7 @@ const gameSource=readFileSync(new URL('./game.js',import.meta.url),'utf8');
 const htmlSource=readFileSync(new URL('./index.html',import.meta.url),'utf8');
 const referencedIds=[...gameSource.matchAll(/\$\('([^']+)'\)/g)].map(match=>match[1]);
 const htmlIds=new Set([...htmlSource.matchAll(/id="([^"]+)"/g)].map(match=>match[1]));
-const missingIds=[...new Set(referencedIds.filter(id=>!htmlIds.has(id)))];
+const dynamicSettingIds=['volume','musicVolume','quality','difficulty','effects','ghosts','touch','reducedMotion'];
+const missingIds=[...new Set([...referencedIds,...dynamicSettingIds].filter(id=>!htmlIds.has(id)))];
 if(missingIds.length){console.error(`Missing HTML ids: ${missingIds.join(', ')}`);process.exitCode=1}
 else console.log(`All ${new Set(referencedIds).size} game UI references resolve.`);
