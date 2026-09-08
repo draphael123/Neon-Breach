@@ -23,7 +23,7 @@
       <div class="intro">
         <div class="eyebrow">MIDNIGHT CIRCUIT / DRIFT RACING</div>
         <h1>NEON<br><em>BREACH</em><span>夜 / 侵入</span></h1>
-        <p>Four districts. Three laps. One continuous line.<br>Hold the slide. Own the night.</p>
+        <p>Six districts. Three laps. One continuous line.<br>Hold the slide. Own the night.</p>
         <button id="start" class="primary">ENTER THE CIRCUIT <span>↗</span></button>
         <button id="settings" class="secondary">SYSTEM SETTINGS</button>
         <div class="meta">01 PLAYER <span>•</span> 03 LAPS <span>•</span> DRIFT CLASSIFIED</div>
@@ -40,7 +40,7 @@
       <div class="dialog">
         <div class="eyebrow">RACE BRIEFING / MIDNIGHT CIRCUIT</div>
         <h2 id="briefTitle" tabindex="-1">Build one unbroken line.</h2>
-        <p>Finish three laps against three rivals. Position matters, but a clean drift score decides who truly owns the circuit.</p>
+        <p>Finish three long laps against three rivals. Position matters, but a clean drift score decides who truly owns the circuit.</p>
         <p>Steer with A / D. Hold SHIFT while turning to initiate a drift; tap SPACE for a sharper handbrake rotation. Countersteer to hold angle. Release and drive clean to bank the chain.</p>
         <p>Cross cyan apex zones while sliding to raise your multiplier. A wall hit breaks the chain. On mobile, auto-acceleration is enabled.</p>
         <button id="deploy" class="primary">LIGHTS OUT ↗</button>
@@ -70,6 +70,17 @@
         <label>Screen effects <input id="effects" type="checkbox" checked></label>
         <label>Touch controls + auto-gas <input id="touch" type="checkbox"></label>
         <label>Reduced motion <input id="reducedMotion" type="checkbox"></label>
+        <details class="soundTest">
+          <summary>Sound test mode</summary>
+          <div class="soundTestGrid">
+            <button id="testEngine" type="button">ENGINE</button>
+            <button id="testDrift" type="button">TYRES</button>
+            <button id="testImpact" type="button">IMPACT</button>
+            <button id="testCue" type="button">RACE CUE</button>
+            <button id="testMusic" type="button">MUSIC</button>
+          </div>
+          <p id="soundTestStatus" aria-live="polite">Ready. Choose a channel.</p>
+        </details>
         <p id="audioStatus" class="audioStatus">Tap Enable Sound to hear the soundtrack.</p>
         <details class="credits">
           <summary>Music &amp; art credits</summary>

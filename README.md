@@ -1,6 +1,6 @@
 # Neon Breach
 
-Neon Breach is a browser-based 3D cyberpunk drift racer built with Three.js and Web Audio. Link drifts across four districts, cross apex zones sideways to raise the multiplier, and bank the chain before a collision breaks it.
+Neon Breach is a browser-based 3D cyberpunk drift racer built with Three.js and Web Audio. Link drifts across six districts, cross apex zones sideways to raise the multiplier, thread the physical columns of the Glasshouse atrium, and race beneath a moving maglev before banking the chain.
 
 ## Controls
 
@@ -34,6 +34,8 @@ npx serve .
 - `music.js`: gapless Web Audio soundtrack loops
 
 Settings and personal records are stored locally in the browser.
+
+The Settings panel includes a sound-test mode for previewing engine, tyre, impact, race-cue, and music channels independently.
 
 ## Credits
 
