@@ -1,0 +1,13 @@
+<!doctype html><meta charset=utf-8><title>shapes</title><body style="margin:0;background:#111"><canvas id=c width=1500 height=1000></canvas>
+<script type=module>
+import * as THREE from '../three.module.js';import {circuits} from '../levels.js';import {drafts} from './levels-draft.mjs';const useDraft=location.search.includes('draft');
+const c=document.getElementById('c'),x=c.getContext('2d');x.fillStyle='#111';x.fillRect(0,0,1500,1000);
+circuits.forEach((L,i)=>{const ctrl=useDraft&&drafts[L.id]||L.control;const curve=new THREE.CatmullRomCurve3(ctrl.map(p=>new THREE.Vector3(...p)),true,'centripetal');const pts=curve.getPoints(600);
+const xs=pts.map(p=>p.x),zs=pts.map(p=>p.z),mnx=Math.min(...xs),mxx=Math.max(...xs),mnz=Math.min(...zs),mxz=Math.max(...zs),sc=Math.min(420/(mxx-mnx),280/(mxz-mnz));
+const ox=(i%3)*500+40+(420-(mxx-mnx)*sc)/2,oy=Math.floor(i/3)*500+60+(280-(mxz-mnz)*sc)/2;
+x.strokeStyle='#5ff';x.lineWidth=6;x.beginPath();pts.forEach((p,k)=>{const px=ox+(p.x-mnx)*sc,py=oy+(p.z-mnz)*sc;k?x.lineTo(px,py):x.moveTo(px,py)});x.closePath();x.stroke();
+x.fillStyle='#f6c';ctrl.forEach(p=>{x.beginPath();x.arc(ox+(p[0]-mnx)*sc,oy+(p[2]-mnz)*sc,5,0,7);x.fill()});
+const s=curve.getPointAt(0);x.fillStyle='#fff';x.beginPath();x.arc(ox+(s.x-mnx)*sc,oy+(s.z-mnz)*sc,8,0,7);x.fill();
+x.fillStyle='#fff';x.font='22px monospace';x.fillText(L.id+' '+(mxx-mnx).toFixed(0)+'x'+(mxz-mnz).toFixed(0)+'m  ctrl '+L.control.length,(i%3)*500+40,Math.floor(i/3)*500+40);});
+if(!location.search.includes('post=0'))fetch('/shot?name=shapes'+(useDraft?'-draft':''),{method:'POST',headers:{'Content-Type':'text/plain'},body:c.toDataURL('image/jpeg',.85)}).catch(()=>{});
+</script></body>
