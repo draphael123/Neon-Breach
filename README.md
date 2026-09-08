@@ -8,7 +8,7 @@ Neon Breach is a browser-based 3D drift racer built with Three.js and Web Audio.
 - **Solara Run** — a 1.82 km golden-hour desert course with flowing high-speed arcs, lower-grip sand, mirror fields, a broken aqueduct, mesas, dust, and a rotating solar crown.
 - **Cryoline Zero** — a 1.76 km technical polar course with extended low-grip slides, glacier switchbacks, physical ice-vault pillars, aurora ribbons, snow, and a moving launch crawler.
 
-Each circuit has its own geometry, districts, handling tune, atmosphere, color system, AI pace, minimap, and local records. Choose a circuit from the title screen or use `?level=midnight`, `?level=solara`, or `?level=cryoline`.
+Each circuit has its own geometry, districts, handling tune, atmosphere, color system, AI pace, minimap, local records, and authored roadside campaign art. Choose a circuit from the title screen or use `?level=midnight`, `?level=solara`, or `?level=cryoline`.
 
 ## Drift and race systems
 

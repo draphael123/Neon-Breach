@@ -1,7 +1,7 @@
 import * as THREE from './three.module.js';
 import {circuits} from './levels.js';
 import {earnedLicense,licenseTitle} from './progression.js';
-import {readFileSync} from 'node:fs';
+import {existsSync,readFileSync} from 'node:fs';
 
 const failures=[];
 if(new Set(circuits.map(level=>level.id)).size!==circuits.length)failures.push('Circuit ids must be unique');
@@ -33,12 +33,18 @@ if(failures.length){console.error(failures.join('\n'));process.exitCode=1}else c
 
 const gameSource=readFileSync(new URL('./game.js',import.meta.url),'utf8');
 const htmlSource=readFileSync(new URL('./index.html',import.meta.url),'utf8');
+const worldSource=readFileSync(new URL('./world.js',import.meta.url),'utf8');
 const referencedIds=[...gameSource.matchAll(/\$\('([^']+)'\)/g)].map(match=>match[1]);
 const htmlIds=new Set([...htmlSource.matchAll(/id="([^"]+)"/g)].map(match=>match[1]));
 const dynamicSettingIds=['volume','musicVolume','quality','difficulty','effects','ghosts','touch','reducedMotion'];
 const missingIds=[...new Set([...referencedIds,...dynamicSettingIds].filter(id=>!htmlIds.has(id)))];
 if(missingIds.length){console.error(`Missing HTML ids: ${missingIds.join(', ')}`);process.exitCode=1}
 else console.log(`All ${new Set(referencedIds).size} game UI references resolve.`);
+
+const artworkPaths=[...new Set([...worldSource.matchAll(/['"](\.\/assets\/[^'"]+)['"]/g)].map(match=>match[1]))];
+const missingArtwork=artworkPaths.filter(path=>!existsSync(new URL(path,import.meta.url)));
+if(missingArtwork.length){console.error(`Missing artwork assets: ${missingArtwork.join(', ')}`);process.exitCode=1}
+else console.log(`All ${artworkPaths.length} local artwork assets resolve.`);
 
 const licenseCases=[['C',4,1],['B',4,1],['B',3,2],['A',2,2],['A',1,3],['S',4,3]];
 for(const [rank,place,expected] of licenseCases)if(earnedLicense(rank,place)!==expected){console.error(`License rule failed for rank ${rank}, place ${place}`);process.exitCode=1}
