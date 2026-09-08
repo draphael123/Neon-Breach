@@ -29,7 +29,7 @@ export function analyse(){
       if(!hasCollider)roadClip.push({kind:k,t:+g.t.toFixed(3),d:+g.d.toFixed(1),size:[+w(m).toFixed(1),+h(m).toFixed(1),+d(m).toFixed(1)]});
     }
   }
-  const chokeHalfAt=t=>{for(const c of A.level.chokes||[])if(t>=c.from&&t<=c.to)return c.half;return HALF};const wedgeRisk=A.collisionBodies.filter(b=>Math.abs(b.lane)+b.radius+2.5>chokeHalfAt(b.t)-1.65&&Math.abs(b.lane)<chokeHalfAt(b.t)).map(b=>({label:b.label,t:+b.t.toFixed(3),lane:b.lane,limit:+(chokeHalfAt(b.t)-1.65).toFixed(2)}));
+  const chokeHalfAt=t=>{for(const c of A.level.chokes||[])if(t>=c.from&&t<=c.to)return c.half;return HALF};const wedgeRisk=A.collisionBodies.filter(b=>Math.abs(b.lane)+b.radius+1.55>chokeHalfAt(b.t)-1.65&&Math.abs(b.lane)<chokeHalfAt(b.t)).map(b=>({label:b.label,t:+b.t.toFixed(3),lane:b.lane,limit:+(chokeHalfAt(b.t)-1.65).toFixed(2)}));
   const colliderNoMesh=A.collisionBodies.filter(b=>!solids.some(m=>Math.hypot(b.x-cx(m),b.z-cz(m))<b.radius+Math.max(w(m),d(m))/2+0.5)).map(b=>({label:b.label,t:+b.t.toFixed(3),lane:b.lane}));
   const group=list=>{const g=new Map();for(const e of list){const a=g.get(e.kind)||{kind:e.kind,count:0,first:[]};a.count++;if(a.first.length<3)a.first.push(e);g.set(e.kind,a)}return [...g.values()].sort((a,b)=>b.count-a.count)};
   return{level:A.level.id,meshes:M.length,solids:solids.length,kinds:kinds.size,vocab:[...kinds.entries()].map(([k,n])=>({kind:k,n})),unsupported:group(unsupported),floatingSupported:group(floating).length,buried:group(buried),roadClip:group(roadClip),colliderNoMesh,wedgeRisk,colliders:A.collisionBodies.length};
