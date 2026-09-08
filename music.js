@@ -1,0 +1,12 @@
+// Web Audio buffer loops avoid the gap caused by restarting an HTML audio element.
+export class MusicDirector {
+  constructor(onStatus=()=>{}){this.context=null;this.phase='intro';this.volume=.38;this.enabled=true;this.duck=1;this.buffers={};this.active=null;this.loading=null;this.onStatus=onStatus;this.started=false;this.failed=false}
+  async unlock(context){if(!context)return;this.context=context;this.started=true;if(!this.loading){this.onStatus('loading');this.loading=Promise.allSettled(Object.entries({intro:'./audio/going-undercover.mp3',race:'./audio/deadly-contracts.mp3'}).map(async([key,path])=>{const response=await fetch(path);if(!response.ok)throw new Error('Music could not load');const bytes=await response.arrayBuffer();this.buffers[key]=await context.decodeAudioData(bytes);if(this.phase===key)this.switchTo(key)})).then(results=>{this.failed=results.some(r=>r.status==='rejected');this.onStatus(this.failed?'unavailable':'ready')})}this.switchTo(this.phase);return this.loading}
+  setVolume(value){this.volume=Math.max(0,Math.min(1,Number(value)/100));this.refresh()}
+  setEnabled(value){this.enabled=value;this.refresh()}
+  setPhase(phase,paused=false){const changed=this.phase!==phase;this.phase=phase;this.duck=paused?.25:1;if(changed||(!this.active&&this.buffers[phase]))this.switchTo(phase);else this.refresh()}
+  refresh(){if(!this.context||!this.active)return;const gain=this.active.gain.gain,now=this.context.currentTime;gain.cancelScheduledValues(now);gain.setTargetAtTime(this.enabled?this.volume*this.duck:0,now,.18)}
+  switchTo(key){if(!this.context||!this.buffers[key]||this.active?.key===key)return;const now=this.context.currentTime,old=this.active;if(old){old.gain.gain.cancelScheduledValues(now);old.gain.gain.setTargetAtTime(0,now,.25);old.source.stop(now+1.4);old.source.onended=()=>{old.source.disconnect();old.gain.disconnect()}}
+    const source=this.context.createBufferSource(),gain=this.context.createGain();source.buffer=this.buffers[key];source.loop=true;gain.gain.setValueAtTime(0,now);source.connect(gain).connect(this.context.destination);source.start();this.active={key,source,gain};this.refresh()
+  }
+}
