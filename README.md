@@ -17,6 +17,8 @@ The opening four races form a mechanically varied city campaign; desert and pola
 
 ## Drift and race systems
 
+- Every circuit has route features the others do not: risk routes (a tighter side line worth more drift score; rivals never take it), ramps you can jump from the centre lane, banked bowls with extra grip, and chokes that narrow the road. Midnight has the service alley and a skyway crest; Floodline the harbour bank, floodgate choke, and canal bed; Skyline the rooftop line, summit jump, and helipad chicane; Blackout the substation cut, banked stadium, and roofed underpass; Solara two dune ramps, the aqueduct top, and the canyon choke; Cryoline the crevasse, crawler-yard crest, and ice vault.
+
 - Hold drift and steer to snap the rear into a slide; countersteer to maintain angle. Stable countersteer increases scoring, and a settled release earns a Perfect Exit.
 - Long slides trigger Drift Lock and Deep Drift awards. Lit apexes increase flow and multiplier.
 - Drive cleanly after a chain to bank it. Wall, obstacle, and rival contact break the active chain.

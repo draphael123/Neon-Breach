@@ -29,9 +29,10 @@ export function analyse(){
       if(!hasCollider)roadClip.push({kind:k,t:+g.t.toFixed(3),d:+g.d.toFixed(1),size:[+w(m).toFixed(1),+h(m).toFixed(1),+d(m).toFixed(1)]});
     }
   }
+  const chokeHalfAt=t=>{for(const c of A.level.chokes||[])if(t>=c.from&&t<=c.to)return c.half;return HALF};const wedgeRisk=A.collisionBodies.filter(b=>Math.abs(b.lane)+b.radius+2.5>chokeHalfAt(b.t)-1.65&&Math.abs(b.lane)<chokeHalfAt(b.t)).map(b=>({label:b.label,t:+b.t.toFixed(3),lane:b.lane,limit:+(chokeHalfAt(b.t)-1.65).toFixed(2)}));
   const colliderNoMesh=A.collisionBodies.filter(b=>!solids.some(m=>Math.hypot(b.x-cx(m),b.z-cz(m))<b.radius+Math.max(w(m),d(m))/2+0.5)).map(b=>({label:b.label,t:+b.t.toFixed(3),lane:b.lane}));
   const group=list=>{const g=new Map();for(const e of list){const a=g.get(e.kind)||{kind:e.kind,count:0,first:[]};a.count++;if(a.first.length<3)a.first.push(e);g.set(e.kind,a)}return [...g.values()].sort((a,b)=>b.count-a.count)};
-  return{level:A.level.id,meshes:M.length,solids:solids.length,kinds:kinds.size,vocab:[...kinds.entries()].map(([k,n])=>({kind:k,n})),unsupported:group(unsupported),floatingSupported:group(floating).length,buried:group(buried),roadClip:group(roadClip),colliderNoMesh,colliders:A.collisionBodies.length};
+  return{level:A.level.id,meshes:M.length,solids:solids.length,kinds:kinds.size,vocab:[...kinds.entries()].map(([k,n])=>({kind:k,n})),unsupported:group(unsupported),floatingSupported:group(floating).length,buried:group(buried),roadClip:group(roadClip),colliderNoMesh,wedgeRisk,colliders:A.collisionBodies.length};
 }
 // Contact sheet: 8 chase-cam stations at t=k/8 plus optional extra t's; draws into a 2D canvas overlay.
 export function contactSheet(extra=[]){
@@ -57,7 +58,7 @@ async function post(name,data){if(q.get('post')==='0')return;try{await fetch('/r
   const worst=rep.unsupported.slice(0,2).map(g=>g.first[0].t);
   if(q.get('sheet')==='1'){for(const id of ['menu','brief'])document.getElementById(id)?.classList.add('hidden');contactSheet(worst)}
   const el=document.createElement('pre');el.id='auditReport';el.style.cssText='position:fixed;right:8px;top:8px;z-index:9999;background:#000c;color:#fd9;font:11px/1.4 monospace;padding:8px;max-height:90vh;overflow:auto;max-width:48vw';
-  el.textContent=`${rep.level}: ${rep.solids} solids, ${rep.kinds} kinds, ${rep.colliders} colliders\nUNSUPPORTED ${rep.unsupported.reduce((a,b)=>a+b.count,0)} | buried ${rep.buried.reduce((a,b)=>a+b.count,0)} | roadClip ${rep.roadClip.reduce((a,b)=>a+b.count,0)} | colliderNoMesh ${rep.colliderNoMesh.length}\n`+rep.unsupported.slice(0,12).map(g=>`${g.count}x ${g.kind} @t=${g.first.map(f=>f.t).join(',')} gap ${g.first[0].gap}`).join('\n');
+  el.textContent=`${rep.level}: ${rep.solids} solids, ${rep.kinds} kinds, ${rep.colliders} colliders\nUNSUPPORTED ${rep.unsupported.reduce((a,b)=>a+b.count,0)} | buried ${rep.buried.reduce((a,b)=>a+b.count,0)} | roadClip ${rep.roadClip.reduce((a,b)=>a+b.count,0)} | colliderNoMesh ${rep.colliderNoMesh.length}\n | wedgeRisk ${rep.wedgeRisk.length}`+rep.unsupported.slice(0,12).map(g=>`${g.count}x ${g.kind} @t=${g.first.map(f=>f.t).join(',')} gap ${g.first[0].gap}`).join('\n');
   document.body.appendChild(el);
   await post(`audit-${rep.level}`,rep);window.__auditDone=true;
   if(q.get('chain')==='1'){const ids=A.circuits.map(c=>c.id),i=ids.indexOf(A.level.id);if(i<ids.length-1){const u=new URL(location.href);u.searchParams.set('level',ids[i+1]);setTimeout(()=>location.href=u.toString(),400)}else{window.__chainDone=true;document.title='AUDIT CHAIN DONE'}}

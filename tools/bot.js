@@ -7,7 +7,8 @@ export const PROFILES={
   drifter:{lookS:.55,gain:3.2,damp:.12,laneGain:1,brakeLook:.05,margin:.92,drift:true,driftBend:.11,boost:true},
   drifternb:{lookS:.55,gain:3.2,damp:.12,laneGain:1,brakeLook:.05,margin:.92,drift:true,driftBend:.11,boost:false},
   wallrider:{lookS:.22,gain:2.2,damp:0,laneGain:0,brakeLook:0,margin:9,drift:false,boost:false},
-  idle:{lookS:.55,gain:3.2,damp:.12,laneGain:1,brakeLook:0,margin:9,drift:false,boost:false,idleAfter:3}
+  idle:{lookS:.55,gain:3.2,damp:.12,laneGain:1,brakeLook:0,margin:9,drift:false,boost:false,idleAfter:3},
+  risky:{lookS:.5,gain:3.2,damp:.12,laneGain:1,brakeLook:.05,margin:.95,drift:true,driftBend:.1,boost:true,takeRisks:true}
 };
 // Max speed the car can hold through radius R given steer authority (heading rate = (1.72-.009v)*grip term).
 function safeSpeed(R,level){const g=(1.06+(1-level.grip)*.25),k=.009;return Math.max(12,(1.72*g*R)/(1+k*g*R))}
@@ -16,7 +17,7 @@ export function driverInput(profile,s,level){
   const P=PROFILES[profile],inp=NB.input;inp.active=true;
   if(P.idleAfter!==undefined&&s.time>P.idleAfter){inp.steer=0;inp.throttle=1;inp.brake=0;inp.drift=false;inp.boost=false;return}
   // Pure pursuit on the centreline point ahead (distance scales with speed), plus yaw-rate damping.
-  const lookDist=Math.max(14,Math.min(48,s.speed*P.lookS)),tgt=A.at(s.t+lookDist/A.LENGTH,P.laneGain?0:s.lane*.6),want=Math.atan2(tgt.x-s.x,tgt.z-s.z);
+  const lookDist=Math.max(14,Math.min(48,s.speed*P.lookS));let tgt;const entry=P.takeRisks&&!s.onRisk&&A.riskRoutes.find(r=>s.t>=r.from-.012&&s.t<=r.from+.012);if(s.onRisk){const r=A.riskRoutes.find(x=>x.label===s.onRisk);tgt=A.riskAt(r,s.riskU+lookDist/r.length)}else if(entry)tgt=A.riskAt(entry,.14);else tgt=A.at(s.t+lookDist/A.LENGTH,P.laneGain?0:s.lane*.6);const want=Math.atan2(tgt.x-s.x,tgt.z-s.z);
   const err=angle(want-s.heading),yawRate=angle(s.heading-(inp._h??s.heading))*60;inp._h=s.heading;
   inp.steer=Math.max(-1,Math.min(1,err*P.gain-yawRate*P.damp));
   let minR=1e6;if(P.brakeLook){for(let u=.004;u<=P.brakeLook;u+=.004)minR=Math.min(minR,bendRadius(s.t+u))}
@@ -42,7 +43,7 @@ export async function runCell(profile,laps=7,difficulty='normal'){
     NB.tick(clock0+frames*1000/60);
     s=NB.snap();frames++;
     if(![s.t,s.speed,s.heading,s.progress,s.x,s.z].every(Number.isFinite)){report.violations.push({frame:frames,kind:'NaN',s:{t:s.t,speed:s.speed,heading:s.heading,progress:s.progress}});break}
-    if(s.d>A.TRACK_HALF_WIDTH+.5)report.violations.push({frame:frames,kind:'outside-road',d:+s.d.toFixed(2),t:+s.t.toFixed(3)});
+    if(!s.onRisk&&s.d>A.TRACK_HALF_WIDTH+.5)report.violations.push({frame:frames,kind:'outside-road',d:+s.d.toFixed(2),t:+s.t.toFixed(3)});
     for(let i=0;i<3;i++){
       if(s.ai[i]<lastAi[i]-1e-9)report.violations.push({frame:frames,kind:'rival-backwards',i,t:+s.t.toFixed(3)});
       const lapIdx=Math.floor(s.ai[i]-1);
@@ -63,7 +64,7 @@ export async function runCell(profile,laps=7,difficulty='normal'){
     if(frames%3000===0)await new Promise(r=>setTimeout(r,0));
   }
   report.totalFrames=frames;
-  report.finish={state:s.state,place:s.place,time:+s.time.toFixed(2),score:s.totalScore,contacts:s.stats.contacts,ai:s.ai.map(v=>+v.toFixed(3)),progress:+s.progress.toFixed(3)};
+  report.finish={state:s.state,place:s.place,time:+s.time.toFixed(2),score:s.totalScore,contacts:s.stats.contacts,risks:s.stats.risks||0,jumps:s.stats.jumps||0,ai:s.ai.map(v=>+v.toFixed(3)),progress:+s.progress.toFixed(3)};
   NB.input.active=false;NB.fast=false;A.updateHud();
   return report;
 }
