@@ -122,3 +122,12 @@ Measured (normal): clean bot finishes P1 or P2 within 0.9 s on all six; no-boost
 Not done / follow-ups: the radius-histogram similarity is still ~0.99 between the four re-authored circuits because they share one fillet vocabulary (36/42/60-150 m) even though their turn sequences differ — vary the radius mix per circuit next; the prop-vocabulary metric counts random building sizes as unique kinds and needs a coarser key; adaptive graphics may drop to battery mode spuriously in the first five seconds (unverified); cryoline's baseline bot run was lost to Chrome tab throttling.
 
 Second pass (same day): per-circuit road furniture replaced the shared lamps and kerb lights; Floodline barges and tanks now also appear in districts 2 and 4, Skyline sky-bridges and helipads on the descent; movers added (Floodline patrol boat, Skyline cable pod, Blackout searchlights) and the shared maglev hidden on those three. Audit still zero on all six.
+
+## Third pass — 2026-09-08 (rating follow-ups + life)
+
+- **Corner vocabulary per circuit:** Floodline right-angle 44 m blocks (4 brake corners), Skyline 32-34 m switchbacks plus sweeps (7), Blackout 44-52 m medium corners (3), Solara one 39 m canyon hairpin plus 60 m lift corners (by design, high-speed desert). Generator gained an overlap guard and distance-interpolated heights (fixed a 63 % grade spike). Corner-radius similarity now 0.01-0.88 across pairs, nothing above 0.9 once straights are excluded from the metric.
+- **Rivals:** seeded mistakes (lift to 86 % pace plus a lane wobble for ~1 s every 5.5-20 s by difficulty), slipstream +2.6 m/s when tucked behind another rival, recalibrated with `tools/calibrate.mjs` at a 3.5 % margin. v6: clean bot P1-P2 within 1.6 s on all six.
+- **Mechanics with teeth:** Solara heat (full throttle above 80 % of top builds heat; overheated = grip ×0.8 and top ×0.94 until you lift or drift), Cryoline black ice (two sectors at grip ×0.62 with glassy patches drawn on the road). Slip bleed scaled by circuit grip so ice scrubs less.
+- **Life:** window banks in five phase groups pulse and blink, elevated traffic arteries with instanced two-way streams (four per city, one each for desert and polar), four strobing aircraft circling the city, plus the existing movers.
+- **Performance:** measured 2.9-6.4 ms per rendered frame (hidden tab, 1280×720), 180 draw calls on Skyline. No action needed.
+- Still open: a human has not driven it.

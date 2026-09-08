@@ -10,8 +10,8 @@ Circuits use a 32 m road profile with wide drift lanes on a 34 m verge each side
 - **Floodline District** — a 3.70 km storm-city canal grid with a harbour straight, moored barges, standing-water hydroplane sectors, the floodgate, and a pumping-station hairpin.
 - **Skyline Divide** — a 3.75 km switchback climb through a violet vertical city, breaking through a cloud deck to summit sky-bridges and helipads, where clean high-altitude running recharges boost before the descent.
 - **Blackout Protocol** — a 3.99 km core-city grid of right-angle blocks, substation yards, and pylon cables strung over the road, with rolling grid failures and amplified overvolt boost windows.
-- **Solara Run** — a 3.72 km golden-hour desert course with flowing high-speed arcs, lower-grip sand, mirror fields, a broken aqueduct, mesas, dust, and a rotating solar crown.
-- **Cryoline Zero** — a 3.68 km technical polar course with extended low-grip slides, glacier switchbacks, physical ice-vault pillars, aurora ribbons, snow, and a moving launch crawler.
+- **Solara Run** — a 3.64 km golden-hour desert course with one canyon hairpin and long flowing arcs, where holding full throttle builds engine heat until you lift or drift, with flowing high-speed arcs, lower-grip sand, mirror fields, a broken aqueduct, mesas, dust, and a rotating solar crown.
+- **Cryoline Zero** — a 3.68 km technical polar course with two black-ice sectors that cut grip further, with extended low-grip slides, glacier switchbacks, physical ice-vault pillars, aurora ribbons, snow, and a moving launch crawler.
 
 The opening four races form a mechanically varied city campaign; desert and polar circuits arrive later as frontier events. Each circuit has its own geometry, districts, handling tune, atmosphere, color system, AI pace, minimap, and local records. Choose a circuit from the title screen or use its `?level=` id.
 
@@ -27,8 +27,9 @@ The opening four races form a mechanically varied city campaign; desert and pola
 - Results report lap splits, best chain, perfect exits, near misses, apex links, wall kisses, contacts, and a coaching prompt for the next run.
 - The fastest completed lap is recorded locally and replayed as a translucent, non-colliding ghost on later laps and runs.
 - Every finish grants a circuit license. Strong rank-and-position combinations upgrade it from Bronze to Silver and Gold; three Gold licenses grant Breach Master status.
-- Rivals use corner-aware lines, hazard avoidance, passing behavior, and bounded rubber-banding rather than fixed lane weaving.
+- Rivals use corner-aware lines, hazard avoidance, slipstream passes on each other, seeded mistakes (a lift and a wobble every 5 to 20 seconds depending on difficulty), and bounded rubber-banding rather than fixed lane weaving.
 - Music responds to flow and briefly ducks under collision effects so important driving feedback stays legible.
+- The world runs on its own clock: window banks pulse and blink across the skyline, distant traffic streams along elevated arteries, aircraft cross the sky with strobes, and each circuit has its own moving set piece.
 
 ## Controls
 
@@ -85,7 +86,7 @@ Columns: average lap / share of lap at the speed cap / braking per lap / rival l
 | solara | 52.8 / 98% / 0.0 s / 73.2 / P1 | 58.8 / 53% / 2.3 s / 61.1 / P1 (-0.3 s) | 60.6 / 61.1 |
 | cryoline | — / — / — s / — / — | 64.2 / 64% / 2.0 s / 65.4 / P2 (0.9 s) | 72.0 / 66.4 |
 
-Rival pace is set per circuit by `aiPace` in `levels.js`, calibrated so a rival lap matches the clean bot's lap; difficulty scales it (casual 0.90, normal 0.965, expert 1.02) and the rubber band is capped at ±2.2 m/s in both directions.
+Rival pace is set per circuit by `aiPace` in `levels.js`, calibrated by `node tools/calibrate.mjs <tag>` from a `bot=clean&rubber=0` run so a rival lap sits 3.5 percent above the clean bot's lap; difficulty scales it (casual 0.90, normal 0.965, expert 1.02) and the rubber band is capped at ±2.2 m/s in both directions.
 
 ## Architecture
 

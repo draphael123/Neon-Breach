@@ -7,10 +7,10 @@ function shape(level){
   const curve=new THREE.CatmullRomCurve3(level.control.map(p=>new THREE.Vector3(...p)),true,'centripetal'),len=curve.getLength();
   const yaw=u=>{const v=curve.getTangentAt(((u%1)+1)%1);return Math.atan2(v.x,v.z)};
   const turn=[],hist=new Array(12).fill(0);
-  for(let i=0;i<N;i++){const t=i/N;let d=yaw(t+.008)-yaw(t-.008);d=Math.atan2(Math.sin(d),Math.cos(d));turn.push(d);const R=(.016*len)/Math.max(1e-4,Math.abs(d));const bin=Math.min(11,Math.floor(Math.log2(Math.max(20,R)/20)*2));hist[bin]++}
+  for(let i=0;i<N;i++){const t=i/N;let d=yaw(t+.008)-yaw(t-.008);d=Math.atan2(Math.sin(d),Math.cos(d));turn.push(d);const R=(.016*len)/Math.max(1e-4,Math.abs(d));if(R<320){const bin=Math.min(11,Math.floor(Math.log2(Math.max(20,R)/20)*3));hist[bin]++}}
   const ys=Array.from({length:N},(_,i)=>curve.getPointAt(i/N).y),rise=Math.max(...ys)-Math.min(...ys);
   const seq=[];let cur=0,run=0;for(const d of turn){const s=Math.abs(d)<.02?0:Math.sign(d);if(s!==cur){if(cur!==0&&run>6)seq.push(cur>0?'L':'R');cur=s;run=0}run++}
-  return{len,hist:hist.map(v=>v/N),turn,rise,seq:seq.join(''),corners:seq.length};
+  const hn=hist.reduce((a,b)=>a+b,0)||1;return{len,hist:hist.map(v=>v/hn),turn,rise,seq:seq.join(''),corners:seq.length};
 }
 const corr=(a,b)=>{const ma=a.reduce((x,y)=>x+y,0)/a.length,mb=b.reduce((x,y)=>x+y,0)/b.length;let n=0,da=0,db=0;for(let i=0;i<a.length;i++){n+=(a[i]-ma)*(b[i]-mb);da+=(a[i]-ma)**2;db+=(b[i]-mb)**2}return n/Math.sqrt(da*db||1)};
 // best circular-shift correlation of |turn| profiles (same track wearing different paint would score high)
@@ -18,7 +18,7 @@ function shiftCorr(a,b){let best=-1;const A=a.map(Math.abs),B=b.map(Math.abs);fo
 const S=Object.fromEntries(circuits.map(c=>[c.id,shape(c)]));
 console.log('## Track shape');console.log('| circuit | length | corners | rise | turn sequence |');console.log('|---|---|---|---|---|');
 for(const c of circuits)console.log(`| ${c.id} | ${S[c.id].len.toFixed(0)} m | ${S[c.id].corners} | ${S[c.id].rise.toFixed(0)} m | ${S[c.id].seq} |`);
-console.log('\n## Shape similarity (radius histogram corr / best-shift |turn| corr) — above 0.9 is a paint swap');
+console.log('\n## Shape similarity (corner-radius histogram corr, radii under 320 m only / best-shift |turn| corr) — above 0.9 is a paint swap');
 console.log('| | '+circuits.map(c=>c.id).join(' | ')+' |');console.log('|---|'+circuits.map(()=>'---').join('|')+'|');
 for(const a of circuits)console.log(`| ${a.id} | `+circuits.map(b=>a.id===b.id?'—':`${corr(S[a.id].hist,S[b.id].hist).toFixed(2)} / ${shiftCorr(S[a.id].turn,S[b.id].turn).toFixed(2)}`).join(' | ')+' |');
 // vocabulary from audit reports
