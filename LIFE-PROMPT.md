@@ -54,3 +54,11 @@ Fuller traffic, more crowds, drones, weather bands, animated signs, on every cir
 
 ## Axis 6 — Landmarks and district stories
 A legible silhouette at every brake corner; each district's name, look, and one happening read as a journey.
+
+## Status 2026-09-08 — axes 2 to 6 shipped
+- Axis 2: `moments.js`, 36 moments (six per circuit, two big), telegraph by distance ahead, events toast through `worldEvents`.
+- Axis 3: gauges in the HUD (`#gauge`); heat, flood spread by lap, ice spread by lap, grid countdown, altitude draft, precision streak.
+- Axis 4: `reactions.js`: instanced crowds that lean and flash, verge vans that pull aside and honk, marshals with yellow/green flags, canvas gantry boards, camera drones, sign flicker, surface spray while drifting.
+- Axis 5: traffic arteries 40 to 44 cars each plus a fifth artery, weather bands heavier in districts 3 and 5.
+- Axis 6: `landmarks.js`: one landmark per brake corner on the outside of the bend, per-circuit silhouette with a moving light (neon tower, lighthouse beam, crane strobe, cooling tower, rock arch beacon, radar dish).
+- Frame: ~5 ms, 320 draw calls on Midnight. All six circuits run rendered frames with no console errors.
