@@ -4,17 +4,21 @@ Neon Breach is a browser-based 3D drift racer built with Three.js and Web Audio.
 
 ## Circuits
 
-- **Midnight Circuit** — a 2.25 km neon city course with the open Glasshouse atrium, physical columns, an elevated skyway, and a moving maglev chase.
-- **Solara Run** — a 1.82 km golden-hour desert course with flowing high-speed arcs, lower-grip sand, mirror fields, a broken aqueduct, mesas, dust, and a rotating solar crown.
-- **Cryoline Zero** — a 1.76 km technical polar course with extended low-grip slides, glacier switchbacks, physical ice-vault pillars, aurora ribbons, snow, and a moving launch crawler.
+- **Midnight Circuit** — a 3.71 km neon precision course with the open Glasshouse atrium, physical columns, an elevated skyway, and a moving maglev chase.
+- **Floodline District** — a 3.82 km storm-city course with standing-water hydroplane sectors and floodgate infrastructure.
+- **Skyline Divide** — a 3.80 km vertical city course where clean high-altitude running slowly recharges boost before the descent.
+- **Blackout Protocol** — a 4.09 km core-city course with rolling grid failures and amplified overvolt boost windows.
+- **Solara Run** — a 3.63 km golden-hour desert course with flowing high-speed arcs, lower-grip sand, mirror fields, a broken aqueduct, mesas, dust, and a rotating solar crown.
+- **Cryoline Zero** — a 3.61 km technical polar course with extended low-grip slides, glacier switchbacks, physical ice-vault pillars, aurora ribbons, snow, and a moving launch crawler.
 
-Each circuit has its own geometry, districts, handling tune, atmosphere, color system, AI pace, minimap, local records, and authored roadside campaign art. Choose a circuit from the title screen or use `?level=midnight`, `?level=solara`, or `?level=cryoline`.
+The opening four races form a mechanically varied city campaign; desert and polar circuits arrive later as frontier events. Each circuit has its own geometry, districts, handling tune, atmosphere, color system, AI pace, minimap, and local records. Choose a circuit from the title screen or use its `?level=` id.
 
 ## Drift and race systems
 
 - Hold drift and steer to snap the rear into a slide; countersteer to maintain angle. Stable countersteer increases scoring, and a settled release earns a Perfect Exit.
 - Long slides trigger Drift Lock and Deep Drift awards. Lit apexes increase flow and multiplier.
 - Drive cleanly after a chain to bank it. Wall, obstacle, and rival contact break the active chain.
+- Banking a drift chain charges a manually deployed boost capacitor: `E`, controller `LB`, or the touch BOOST control.
 - Near-wall slides earn Wall Kiss bonuses, and clean passes by rivals earn Thread the Needle awards. Clean districts add a smaller consistency award.
 - Circuit hazards are marked on the minimap and called out before the car reaches them.
 - Camera roll, speed-responsive weather, particles, skid marks, chassis load, rival drift animation, impact flashes, and optional haptics provide feedback without changing the racing line.
@@ -31,11 +35,12 @@ Each circuit has its own geometry, districts, handling tune, atmosphere, color s
 - `A` / `D` or `←` / `→`: steer and countersteer
 - `Shift`: initiate and hold a drift
 - `Space`: handbrake rotation
+- `E`: deploy banked boost
 - `R`: recover to the racing line with a two-second penalty
 - `Esc`: pause
-- Gamepad: analog left stick to steer, triggers for gas/brake, `A` / `X` / `RB` to drift, `B` for handbrake, `Y` to recover, Menu to pause
+- Gamepad: analog left stick to steer, triggers for gas/brake, `A` / `X` / `RB` to drift, `LB` to boost, `B` for handbrake, `Y` to recover, Menu to pause
 
-Touch devices use auto-acceleration with on-screen steering, brake, and drift controls.
+Touch devices use auto-acceleration with on-screen steering, brake, boost, and drift controls.
 
 ## Run locally
 

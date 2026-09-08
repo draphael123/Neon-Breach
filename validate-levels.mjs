@@ -1,6 +1,7 @@
 import * as THREE from './three.module.js';
 import {circuits} from './levels.js';
 import {earnedLicense,licenseTitle} from './progression.js';
+import {boostFromBank,spendBoost} from './boost.js';
 import {existsSync,readFileSync} from 'node:fs';
 
 const failures=[];
@@ -19,7 +20,7 @@ for(const level of circuits){
     }
   }
   const length=curve.getLength();
-  if(length<1500)failures.push(`${level.id}: circuit is too short (${length.toFixed(0)}m)`);
+  if(length<3300)failures.push(`${level.id}: circuit is too short (${length.toFixed(0)}m)`);
   if(maxGrade>.18)failures.push(`${level.id}: grade exceeds 18% (${(maxGrade*100).toFixed(1)}%)`);
   if(minRemoteSeparation<34)failures.push(`${level.id}: remote track segments approach within ${minRemoteSeparation.toFixed(1)}m`);
   if(level.districts.length!==6)failures.push(`${level.id}: expected six districts`);
@@ -48,5 +49,8 @@ else console.log(`All ${artworkPaths.length} local artwork assets resolve.`);
 
 const licenseCases=[['C',4,1],['B',4,1],['B',3,2],['A',2,2],['A',1,3],['S',4,3]];
 for(const [rank,place,expected] of licenseCases)if(earnedLicense(rank,place)!==expected){console.error(`License rule failed for rank ${rank}, place ${place}`);process.exitCode=1}
-if(licenseTitle([3,3,3])!=='BREACH MASTER'||licenseTitle([1,0,2])!=='2/3 CLASSIFIED'){console.error('License summary rule failed');process.exitCode=1}
+if(licenseTitle([3,3,3,3,3,3])!=='BREACH MASTER'||licenseTitle([1,0,2,0,0,0])!=='2/6 CLASSIFIED'){console.error('License summary rule failed');process.exitCode=1}
 else console.log('All circuit license rules passed.');
+
+if(boostFromBank(0)!==0||boostFromBank(10000)!==32||spendBoost(20,1)!==0||spendBoost(50,.5)!==37){console.error('Drift-to-boost economy rules failed');process.exitCode=1}
+else console.log('Drift-to-boost economy rules passed.');

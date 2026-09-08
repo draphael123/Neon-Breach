@@ -28,8 +28,11 @@
         <button id="settings" class="secondary">SYSTEM SETTINGS</button>
         <nav class="circuitSelect" aria-label="Choose circuit">
           <a href="?level=midnight" data-level="midnight"><b>01</b><span>MIDNIGHT</span><small>City / balanced</small></a>
-          <a href="?level=solara" data-level="solara"><b>02</b><span>SOLARA</span><small>Desert / flowing</small></a>
-          <a href="?level=cryoline" data-level="cryoline"><b>03</b><span>CRYOLINE</span><small>Ice / technical</small></a>
+          <a href="?level=floodline" data-level="floodline"><b>02</b><span>FLOODLINE</span><small>City / hydroplane</small></a>
+          <a href="?level=skyline" data-level="skyline"><b>03</b><span>SKYLINE</span><small>City / vertical</small></a>
+          <a href="?level=blackout" data-level="blackout"><b>04</b><span>BLACKOUT</span><small>City / power cycle</small></a>
+          <a href="?level=solara" data-level="solara"><b>05</b><span>SOLARA</span><small>Desert / flowing</small></a>
+          <a href="?level=cryoline" data-level="cryoline"><b>06</b><span>CRYOLINE</span><small>Ice / technical</small></a>
         </nav>
         <div class="licenseBoard" id="licenseBoard" aria-label="Circuit license progress"></div>
         <div id="recordSummary" class="recordSummary">NO RECORD / FIRST RUN</div>
@@ -39,7 +42,7 @@
         <span id="missionLabel">MIDNIGHT CIRCUIT / DRIFT RUN</span>
         <h2 id="missionTitle">Find the line.</h2>
         <p id="missionText">Link the market sweepers, carry angle across the skyway, and bank your chain before the dockside wall takes it.</p>
-        <div>WASD / DRIVE &nbsp; SHIFT / DRIFT<br>SPACE / HANDBRAKE &nbsp; R / RECOVER<br><b>Gamepad and touch supported</b></div>
+          <div>WASD / DRIVE &nbsp; SHIFT / DRIFT<br>E / BOOST &nbsp; SPACE / HANDBRAKE &nbsp; R / RECOVER<br><b>Gamepad and touch supported</b></div>
       </div>
     </section>
 
@@ -119,6 +122,8 @@
       <div class="flowMeter"><i id="flowFill"></i></div>
       <strong id="combo">×1.0</strong>
       <small id="chainScore">0</small>
+      <div class="boostMeter"><i id="boostFill"></i></div>
+      <span class="boostLabel">BOOST <b id="boostValue">0%</b></span>
     </div>
     <div class="objective"><span>LAP</span><strong id="cores">1 / 3</strong></div>
     <div id="countdown" class="hidden" aria-live="assertive">3</div>
@@ -137,7 +142,7 @@
   <button id="recenter" class="hidden" aria-label="Recover car with a two second penalty">↺ RECOVER</button>
   <div id="controls" class="hidden">
     <div class="steering"><button id="left" aria-label="Steer left">◀</button><button id="right" aria-label="Steer right">▶</button></div>
-    <div class="actions"><button id="brake">▰<span>BRAKE</span></button><button id="drift"><span>DRIFT</span></button></div>
+    <div class="actions"><button id="brake">▰<span>BRAKE</span></button><button id="boost"><span>BOOST</span></button><button id="drift"><span>DRIFT</span></button></div>
   </div>
 
   <div id="error" class="overlay hidden" role="alert"><div class="dialog"><h2>Graphics unavailable</h2><p>This game needs WebGL. Please enable hardware acceleration or try another browser.</p></div></div>

@@ -45,7 +45,21 @@ for(const z of [-60,45,150]){box(2,60,2,-325,25,z,material(0xd28241));box(80,2,2
 for(const t of [0,.25,.5,.75]){const g=onTrack(t);for(const side of [-1,1])box(.7,11,.7,side*14,5,0,t===0?cyan:amber,g);box(29,1.7,1,0,11,0,dark,g);box(29,.16,1.1,0,12,0,t===0?cyan:amber,g)}
 for(let i=0;i<13;i++)for(let j=0;j<2;j++){const g=onTrack(0);box(2,.06,1,-12+i*2,.12,j-.5,material((i+j)%2?0xd1f6ff:0x102030),g)}
 // Each circuit adds a dominant silhouette language, not just a palette swap.
-if(level.id==='solara'){
+if(level.family==='city'&&level.id!=='midnight'){
+  // Shared city density, then a circuit-specific infrastructure language.
+  for(let i=0;i<150;i++){const x=(rnd()-.5)*1650,z=(rnd()-.5)*1500;if(samples.some(p=>Math.hypot(p.x-x,p.z-z)<38))continue;const h=20+rnd()**2*170,w=13+rnd()*30,d=13+rnd()*28,m=material([0x102238,0x1d2942,0x25213d,0x183245][i%4]);box(w,h,d,x,h/2-4,z,m);box(.42,h,d+.1,x-w/2,h/2-4,z,i%3?cyan:pink);if(i%4===0)box(w+.5,.32,d+.5,x,h-5,z,i%2?cyan:pink)}
+  if(level.id==='floodline'){
+    const floodGlass=new THREE.MeshPhysicalMaterial({color:0x4bdcff,emissive:0x1c8fa8,emissiveIntensity:.2,transparent:true,opacity:.36,roughness:.08,metalness:.18,depthWrite:false});
+    for(const t of [.27,.29,.31,.66,.68,.7]){const g=onTrack(t);box(25,.08,12,0,.08,0,floodGlass,g)}
+    for(const t of [.43,.455,.47]){const g=onTrack(t);for(const side of [-1,1]){box(2.2,18,5,side*16,7,0,dark,g);box(.25,17,5.2,side*15.2,7,0,amber,g)}box(34,2,5,0,17,0,dark,g)}
+  }else if(level.id==='skyline'){
+    for(let i=0;i<18;i++){const t=.18+i*.035,g=onTrack(t);for(const side of [-1,1]){const h=Math.max(18,g.position.y+8);box(2,h,2,side*16,-h/2+1,0,dark,g);box(.25,h,2.2,side*15.3,-h/2+1,0,cyan,g)}}
+    for(const t of [.36,.55,.76]){const g=onTrack(t,22);box(2,48,2,0,20,0,dark,g);box(30,1.2,1,12,42,0,amber,g);box(.2,32,.2,25,26,0,pink,g)}
+  }else if(level.id==='blackout'){
+    for(const t of [.2,.37,.56,.73]){const g=onTrack(t);for(const side of [-1,1]){const lane=side*9;box(2.4,8,2.4,lane,3.2,0,dark,g);box(2.8,.25,2.8,lane,7.3,0,side>0?amber:pink,g);addTrackCollider(t,lane,1.5,'GRID TRANSFORMER')}box(28,.3,1,0,10,0,amber,g)}
+    for(let i=0;i<28;i++){const a=i/28*Math.PI*2,r=520+(i%3)*70,h=35+(i%7)*14;box(18,h,18,Math.cos(a)*r,h/2-4,Math.sin(a)*r,material(i%2?0x21182c:0x101827));box(.5,h,18.2,Math.cos(a)*r-9,h/2-4,Math.sin(a)*r,i%3?pink:amber)}
+  }
+}else if(level.id==='solara'){
   // Tilted mirror fields catch the low sun; mesas and a broken aqueduct frame the racing line.
   for(let i=0;i<74;i++){const x=(rnd()-.5)*980,z=(rnd()-.5)*900;if(samples.some(p=>Math.hypot(p.x-x,p.z-z)<34))continue;const g=new THREE.Group();g.position.set(x,1,z);g.rotation.y=rnd()*Math.PI;scene.add(g);const panel=box(12,.35,7,0,3,0,material(i%3?0x3e6070:0xd69552,.25),g);panel.rotation.x=-.32;box(.35,4,.35,0,1,0,dark,g)}
   for(const t of [.43,.455,.48,.505,.53]){const g=onTrack(t);for(const side of [-1,1])box(3,19,7,side*16,7,0,material(0x8c4d35),g);box(35,3,6,0,17,0,material(0xb56a42),g)}

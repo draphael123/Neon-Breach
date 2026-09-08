@@ -8,5 +8,5 @@ export function earnedLicense(rank,place){
 
 export function licenseTitle(licenses){
   const classified=licenses.filter(Boolean).length;
-  return licenses.every(value=>value===3)?'BREACH MASTER':classified+'/3 CLASSIFIED';
+  return licenses.every(value=>value===3)?'BREACH MASTER':classified+'/'+licenses.length+' CLASSIFIED';
 }
