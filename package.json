@@ -1,0 +1,8 @@
+{
+  "name": "neon-breach",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "validate": "node validate-levels.mjs"
+  }
+}

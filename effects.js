@@ -22,10 +22,10 @@ export function createPostFX(renderer){
   return {resize,render};
 }
 
-export function createAtmosphere(scene){
-  const count=420,positions=new Float32Array(count*6),geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.BufferAttribute(positions,3));const material=new THREE.LineBasicMaterial({color:0x8cc5e4,transparent:true,opacity:.19,depthWrite:false});const rain=new THREE.LineSegments(geometry,material);rain.frustumCulled=false;scene.add(rain);
+export function createAtmosphere(scene,theme={id:'midnight'}){
+  const count=420,positions=new Float32Array(count*6),geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.BufferAttribute(positions,3));const color=theme.id==='solara'?0xf3ae70:theme.id==='cryoline'?0xd9f7ff:0x8cc5e4,material=new THREE.LineBasicMaterial({color,transparent:true,opacity:theme.id==='cryoline'?.32:.19,depthWrite:false});const rain=new THREE.LineSegments(geometry,material);rain.frustumCulled=false;scene.add(rain);
   const seeds=Array.from({length:count},()=>[Math.random(),Math.random(),Math.random()]);
-  function update(camera,now,visible,quality){rain.visible=visible;if(!visible)return;const n=quality==='high'?count:160;geometry.setDrawRange(0,n*2);for(let i=0;i<n;i++){const s=seeds[i],x=camera.position.x+(s[0]-.5)*70,y=camera.position.y+((s[1]*36-now*.018)%36+36)%36-10,z=camera.position.z+(s[2]-.5)*70;positions.set([x,y,z,x-.2,y-1.4,z+.12],i*6)}geometry.attributes.position.needsUpdate=true}
+  function update(camera,now,visible,quality){rain.visible=visible;if(!visible)return;const n=quality==='high'?count:160;geometry.setDrawRange(0,n*2);for(let i=0;i<n;i++){const s=seeds[i];let x=camera.position.x+(s[0]-.5)*70,y=camera.position.y+((s[1]*36-now*(theme.id==='cryoline'?.006:.018))%36+36)%36-10,z=camera.position.z+(s[2]-.5)*70,dx=-.2,dy=-1.4,dz=.12;if(theme.id==='solara'){y=camera.position.y-2+s[1]*8;dx=2.4;dy=.08;dz=.5}else if(theme.id==='cryoline'){dx=.45;dy=-.45;dz=.2}positions.set([x,y,z,x+dx,y+dy,z+dz],i*6)}geometry.attributes.position.needsUpdate=true}
   return {update};
 }
 

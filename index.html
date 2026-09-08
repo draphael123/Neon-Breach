@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-  <meta name="theme-color" content="#070914">
+  <meta name="theme-color" content="#070914" id="themeColor">
   <meta name="description" content="Neon Breach — a 3D cyberpunk drift racing game.">
   <title>NEON BREACH</title>
   <link rel="stylesheet" href="style.css">
@@ -13,7 +13,7 @@
   <div class="vignette"></div>
   <header>
     <a class="brand">NB<span> / NEON BREACH</span></a>
-    <div class="sector">DISTRICT 09 <b>//</b> NIGHTFALL</div>
+    <div class="sector" id="worldTheme">DISTRICT 09 <b>//</b> NIGHTFALL</div>
     <button id="sound" aria-label="Enable or mute audio">ENABLE SOUND</button>
     <button id="pause" aria-label="Pause and settings">Ⅱ</button>
   </header>
@@ -21,28 +21,33 @@
   <main>
     <section id="menu" class="overlay">
       <div class="intro">
-        <div class="eyebrow">MIDNIGHT CIRCUIT / DRIFT RACING</div>
-        <h1>NEON<br><em>BREACH</em><span>夜 / 侵入</span></h1>
-        <p>Six districts. Three laps. One continuous line.<br>Hold the slide. Own the night.</p>
+        <div class="eyebrow" id="circuitEyebrow">MIDNIGHT CIRCUIT / DRIFT RACING</div>
+        <h1>NEON<br><em>BREACH</em><span id="worldMark">夜 / 侵入</span></h1>
+        <p><span id="circuitTagline">Six districts. Three laps. One continuous line.</span><br><span id="circuitPromise">Hold the slide. Own the night.</span></p>
         <button id="start" class="primary">ENTER THE CIRCUIT <span>↗</span></button>
         <button id="settings" class="secondary">SYSTEM SETTINGS</button>
-        <div class="meta">01 PLAYER <span>•</span> 03 LAPS <span>•</span> DRIFT CLASSIFIED</div>
+        <nav class="circuitSelect" aria-label="Choose circuit">
+          <a href="?level=midnight" data-level="midnight"><b>01</b><span>MIDNIGHT</span><small>City / balanced</small></a>
+          <a href="?level=solara" data-level="solara"><b>02</b><span>SOLARA</span><small>Desert / flowing</small></a>
+          <a href="?level=cryoline" data-level="cryoline"><b>03</b><span>CRYOLINE</span><small>Ice / technical</small></a>
+        </nav>
+        <div class="meta" id="circuitMeta">01 PLAYER <span>•</span> 03 LAPS <span>•</span> DRIFT CLASSIFIED</div>
       </div>
       <div class="mission">
-        <span>MIDNIGHT CIRCUIT / DRIFT RUN</span>
-        <h2>Find the line.</h2>
-        <p>Link the market sweepers, carry angle across the skyway, and bank your chain before the dockside wall takes it.</p>
+        <span id="missionLabel">MIDNIGHT CIRCUIT / DRIFT RUN</span>
+        <h2 id="missionTitle">Find the line.</h2>
+        <p id="missionText">Link the market sweepers, carry angle across the skyway, and bank your chain before the dockside wall takes it.</p>
         <div>WASD / DRIVE &nbsp; SHIFT / DRIFT<br>SPACE / HANDBRAKE &nbsp; R / RECOVER<br><b>Gamepad and touch supported</b></div>
       </div>
     </section>
 
     <section id="brief" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="briefTitle">
       <div class="dialog">
-        <div class="eyebrow">RACE BRIEFING / MIDNIGHT CIRCUIT</div>
+        <div class="eyebrow" id="briefLabel">RACE BRIEFING / MIDNIGHT CIRCUIT</div>
         <h2 id="briefTitle" tabindex="-1">Build one unbroken line.</h2>
-        <p>Finish three long laps against three rivals. Position matters, but a clean drift score decides who truly owns the circuit.</p>
+        <p id="briefBody">Finish three long laps against three rivals. Position matters, but a clean drift score decides who truly owns the circuit.</p>
         <p>Steer with A / D. Hold SHIFT while turning to initiate a drift; tap SPACE for a sharper handbrake rotation. Countersteer to hold angle. Release and drive clean to bank the chain.</p>
-        <p>Cross cyan apex zones while sliding to raise your multiplier. A wall hit breaks the chain. On mobile, auto-acceleration is enabled.</p>
+        <p>Cross the lit apex zones while sliding to raise your multiplier. A wall hit breaks the chain. On mobile, auto-acceleration is enabled.</p>
         <button id="deploy" class="primary">LIGHTS OUT ↗</button>
       </div>
     </section>
@@ -99,6 +104,7 @@
         <p id="endText"></p>
         <div id="results"></div>
         <button id="retry" class="primary">RUN IT AGAIN ↗</button>
+        <button id="nextCircuit" class="secondary">NEXT CIRCUIT</button>
         <button id="toTitle" class="secondary">TITLE SCREEN</button>
       </div>
     </section>
