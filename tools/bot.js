@@ -43,6 +43,7 @@ export async function runCell(profile,laps=7,difficulty='normal'){
     NB.tick(clock0+frames*1000/60);
     s=NB.snap();frames++;
     if(![s.t,s.speed,s.heading,s.progress,s.x,s.z].every(Number.isFinite)){report.violations.push({frame:frames,kind:'NaN',s:{t:s.t,speed:s.speed,heading:s.heading,progress:s.progress}});break}
+    for(const b of A.collisionBodies){if(Math.hypot(b.x-s.x,b.z-s.z)<b.radius-.4){report.violations.push({frame:frames,kind:'inside-collider',label:b.label,t:+s.t.toFixed(3)});break}}
     if(!s.onRisk&&s.d>A.TRACK_HALF_WIDTH+.5)report.violations.push({frame:frames,kind:'outside-road',d:+s.d.toFixed(2),t:+s.t.toFixed(3)});
     for(let i=0;i<3;i++){
       if(s.ai[i]<lastAi[i]-1e-9)report.violations.push({frame:frames,kind:'rival-backwards',i,t:+s.t.toFixed(3)});

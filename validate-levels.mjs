@@ -52,5 +52,5 @@ for(const [rank,place,expected] of licenseCases)if(earnedLicense(rank,place)!==e
 if(licenseTitle([3,3,3,3,3,3])!=='BREACH MASTER'||licenseTitle([1,0,2,0,0,0])!=='2/6 CLASSIFIED'){console.error('License summary rule failed');process.exitCode=1}
 else console.log('All circuit license rules passed.');
 
-if(boostFromBank(0)!==0||boostFromBank(10000)!==32||spendBoost(20,1)!==0||spendBoost(50,.5)!==37){console.error('Drift-to-boost economy rules failed');process.exitCode=1}
+if(boostFromBank(0)!==0||boostFromBank(10000)!==32||spendBoost(15,1)!==0||spendBoost(50,.5)!==42.5){console.error('Drift-to-boost economy rules failed');process.exitCode=1}
 else console.log('Drift-to-boost economy rules passed.');

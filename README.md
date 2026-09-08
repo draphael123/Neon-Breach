@@ -22,7 +22,7 @@ The opening four races form a mechanically varied city campaign; desert and pola
 - Hold drift and steer to snap the rear into a slide; countersteer to maintain angle. Stable countersteer increases scoring, and a settled release earns a Perfect Exit.
 - Long slides trigger Drift Lock and Deep Drift awards. Lit apexes increase flow and multiplier.
 - Drive cleanly after a chain to bank it. Wall, obstacle, and rival contact break the active chain.
-- Banking a drift chain charges a manually deployed boost capacitor: `E`, controller `LB`, or the touch BOOST control.
+- Banking a drift chain charges a manually deployed boost capacitor: `E`, controller `LB`, or the touch BOOST control. Any charge is usable; a full capacitor lasts about seven seconds.
 - Near-wall slides earn Wall Kiss bonuses, and clean passes by rivals earn Thread the Needle awards. Clean districts add a smaller consistency award.
 - Circuit hazards are marked on the minimap and called out before the car reaches them.
 - Camera roll, speed-responsive weather, particles, skid marks, chassis load, rival drift animation, impact flashes, and optional haptics provide feedback without changing the racing line.
@@ -34,7 +34,10 @@ The opening four races form a mechanically varied city campaign; desert and pola
 - Each circuit's mechanic is a system with a HUD gauge: Solara's engine heat builds at full throttle until you lift or drift; Floodline's flood water and Cryoline's black ice spread wider every lap; Blackout's gauge counts down to the next grid failure and its overvolt boost window; Skyline's altitude gauge shows when the cloud draft is charging; Midnight's precision streak grows the multiplier with every clean apex link and resets on contact.
 - Six named moments per circuit, one per district, fire on the lap clock with a telegraph: floodgates rise as you approach, a storm surge runs the canal bed, a helicopter lifts off the summit pad, transformer arcs flash at the substation, rockfall crosses the canyon, a rocket launches from the crawler yard on the last lap, and thirty more.
 - The world answers the race: crowds at every apex lean back and flash cameras when you drift past, verge traffic pulls aside and honks, marshals wave yellow after contact and green when clean, gantry boards read your position and chain, camera drones shadow the car, signs flicker as you slide by, and every brake corner has a landmark on its outside with a moving light.
+- Traffic belongs to roads: overpasses with piers carry cars across the circuit, service lanes on both verges carry the vans that pull aside for you, and people cross the sky-bridges and walk the quays and markets. Rivals ride the ramps and fly, except the cautious one who steers around them.
 - The world runs on its own clock: window banks pulse and blink across the skyline, distant traffic streams along elevated arteries, aircraft cross the sky with strobes, and each circuit has its own moving set piece.
+
+The title screen shows every circuit as a card with a still, its mechanic, its route features, your best time, and your license.
 
 ## Controls
 

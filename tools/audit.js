@@ -4,10 +4,11 @@ const NB=window.__nb,A=NB.api,q=new URLSearchParams(location.search),M=window.__
 const HALF=A.TRACK_HALF_WIDTH,GROUND=-4.5,WATER_TOP=-2.95;
 const cx=m=>(m.min[0]+m.max[0])/2,cz=m=>(m.min[2]+m.max[2])/2,w=m=>m.max[0]-m.min[0],h=m=>m.max[1]-m.min[1],d=m=>m.max[2]-m.min[2];
 function roadInfo(x,z){const n=A.nearest({x,z});return{t:n.t,d:n.d,y:A.at(n.t).y}}
-const VERGE=HALF+1.5+34;function groundAt(x,z){const r=roadInfo(x,z);if(r.d<HALF+2)return{y:r.y,kind:'road',t:r.t,d:r.d};if(r.d<VERGE)return{y:r.y-.08,kind:'verge',t:r.t,d:r.d};
+const VERGE=HALF+1.5+34;function groundAt(x,z){const r=roadInfo(x,z);if(r.d<HALF+2){const lane=A.signedLane({x,z},r.t);return{y:r.y+lane*Math.tan(A.bankRoll(r.t)),kind:'road',t:r.t,d:r.d}}if(r.d<VERGE){const lane=A.signedLane({x,z},r.t);return{y:r.y-.08+lane*Math.tan(A.bankRoll(r.t)),kind:'verge',t:r.t,d:r.d}}
   // ground plane; water box top is higher than the plane where it exists (x 180..440, z -380..240 by default placement)
   return{y:GROUND,kind:'ground',t:r.t,d:r.d}}
 function overlapXZ(a,b,pad=0.3){return a.min[0]-pad<b.max[0]&&a.max[0]+pad>b.min[0]&&a.min[2]-pad<b.max[2]&&a.max[2]+pad>b.min[2]}
+const chokeHalfAt=t=>{for(const c of A.level.chokes||[])if(t>=c.from&&t<=c.to)return c.half;return HALF};
 export function analyse(){
   const solids=M.filter(m=>!m.road&&!m.transparent);
   const floating=[],unsupported=[],buried=[],roadClip=[],kinds=new Map();
@@ -24,12 +25,12 @@ export function analyse(){
       (ok||hung?floating:unsupported).push({kind:k,t:+g.t.toFixed(3),lane:m.lane,gap:+gap.toFixed(1),y:m.min[1],size:[+w(m).toFixed(1),+h(m).toFixed(1),+d(m).toFixed(1)]});
     }
     // solid geometry standing on the road ribbon without a collider
-    if(g.kind==='road'&&g.d<HALF-1.8&&h(m)>0.3&&m.min[1]<g.y+2.5&&m.max[1]>g.y+0.6){
+    if(g.kind==='road'&&g.d<chokeHalfAt(g.t)-1.8&&h(m)>0.3&&m.min[1]<g.y+2.5&&m.max[1]>g.y+0.6){
       const hasCollider=A.collisionBodies.some(b=>Math.hypot(b.x-cx(m),b.z-cz(m))<b.radius+Math.max(w(m),d(m))/2+0.5);
       if(!hasCollider)roadClip.push({kind:k,t:+g.t.toFixed(3),d:+g.d.toFixed(1),size:[+w(m).toFixed(1),+h(m).toFixed(1),+d(m).toFixed(1)]});
     }
   }
-  const chokeHalfAt=t=>{for(const c of A.level.chokes||[])if(t>=c.from&&t<=c.to)return c.half;return HALF};const wedgeRisk=A.collisionBodies.filter(b=>Math.abs(b.lane)+b.radius+1.55>chokeHalfAt(b.t)-1.65&&Math.abs(b.lane)<chokeHalfAt(b.t)).map(b=>({label:b.label,t:+b.t.toFixed(3),lane:b.lane,limit:+(chokeHalfAt(b.t)-1.65).toFixed(2)}));
+  const wedgeRisk=A.collisionBodies.filter(b=>Math.abs(b.lane)+b.radius+1.55>chokeHalfAt(b.t)-1.65&&Math.abs(b.lane)<chokeHalfAt(b.t)).map(b=>({label:b.label,t:+b.t.toFixed(3),lane:b.lane,limit:+(chokeHalfAt(b.t)-1.65).toFixed(2)}));
   const colliderNoMesh=A.collisionBodies.filter(b=>!solids.some(m=>Math.hypot(b.x-cx(m),b.z-cz(m))<b.radius+Math.max(w(m),d(m))/2+0.5)).map(b=>({label:b.label,t:+b.t.toFixed(3),lane:b.lane}));
   const group=list=>{const g=new Map();for(const e of list){const a=g.get(e.kind)||{kind:e.kind,count:0,first:[]};a.count++;if(a.first.length<3)a.first.push(e);g.set(e.kind,a)}return [...g.values()].sort((a,b)=>b.count-a.count)};
   return{level:A.level.id,meshes:M.length,solids:solids.length,kinds:kinds.size,vocab:[...kinds.entries()].map(([k,n])=>({kind:k,n})),unsupported:group(unsupported),floatingSupported:group(floating).length,buried:group(buried),roadClip:group(roadClip),colliderNoMesh,wedgeRisk,colliders:A.collisionBodies.length};

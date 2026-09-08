@@ -62,3 +62,6 @@ A legible silhouette at every brake corner; each district's name, look, and one 
 - Axis 5: traffic arteries 40 to 44 cars each plus a fifth artery, weather bands heavier in districts 3 and 5.
 - Axis 6: `landmarks.js`: one landmark per brake corner on the outside of the bend, per-circuit silhouette with a moving light (neon tower, lighthouse beam, crane strobe, cooling tower, rock arch beacon, radar dish).
 - Frame: ~5 ms, 320 draw calls on Midnight. All six circuits run rendered frames with no console errors.
+
+## Playtest feedback pass (same day)
+Rivals ride and jump ramps (rival one avoids them); orphan cars removed, traffic on overpasses with piers and service lanes, walkers on bridges and quays, one camera drone; circuit picker cards with thumbnails, mechanic, feature chips, best time, license; moment banners distinct from score toasts; boost drain 15%/s so any charge is a burst; audit covers dynamic props (movers placed before the snapshot, bank-aware ground, choke-aware road clip) and the bot checks the car is never inside a collider. Real hits fixed: district signs never had posts, floodgate rested across the road, tower-wave and sodium props hung in the air, risk-route piers stood on the road at route entrances, an overpass re-crossed the track.

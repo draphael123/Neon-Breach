@@ -5,5 +5,5 @@ export function boostFromBank(score){
 }
 
 export function spendBoost(charge,dt){
-  return Math.max(0,charge-Math.max(0,dt)*26);
+  return Math.max(0,charge-Math.max(0,dt)*15);
 }

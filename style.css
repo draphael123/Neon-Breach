@@ -38,3 +38,19 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:8;opac
 .overlay{scrollbar-width:none}.overlay::-webkit-scrollbar{display:none}
 
 .gauge{margin-top:4px}.gaugeMeter{height:3px;background:#ffffff14;overflow:hidden;transform:skewX(-18deg)}.gaugeMeter i{display:block;width:0;height:100%;background:linear-gradient(90deg,var(--accent-2),var(--accent));box-shadow:0 0 10px var(--accent);transition:width .12s linear}.gauge span{display:block!important;margin-top:3px;font-size:9px!important;letter-spacing:1.5px!important;color:#aabfcb!important}.gauge.danger .gaugeMeter i{background:#ffe05f;box-shadow:0 0 14px #ffe05f}.gauge.danger span{color:#ffe05f!important}
+
+.circuitSelect{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:640px;margin-top:22px;border:0;background:none}
+.circuitSelect a{position:relative;display:block;padding:0;border:1px solid #ffffff22;background:#060b14d8;color:#c9d5e2;text-decoration:none;overflow:hidden;min-height:150px;transition:transform .15s,border-color .15s}
+.circuitSelect a:hover,.circuitSelect a.current{border-color:var(--accent,#6bffeb);transform:translateY(-2px)}
+.circuitSelect a.current::after{content:'SELECTED';position:absolute;top:6px;right:6px;font-size:8px;letter-spacing:1.5px;color:#061419;background:var(--accent,#6bffeb);padding:2px 5px}
+.circuitSelect .thumb{display:block;height:74px;background:var(--thumb) center/cover;filter:saturate(1.15) brightness(.95);border-bottom:1px solid #ffffff1a}
+.circuitSelect b{position:absolute;top:6px;left:8px;font-size:11px;color:#fff;text-shadow:0 1px 3px #000;grid-row:auto}
+.circuitSelect span{display:block;padding:7px 9px 0;font-size:13px;font-weight:700;letter-spacing:1.5px;color:#fff}
+.circuitSelect small{display:block;padding:1px 9px 0;font-size:9px;letter-spacing:1px;color:#8fa1b4}
+.circuitSelect em{display:flex;flex-wrap:wrap;gap:3px;padding:6px 9px 0;font-style:normal}
+.circuitSelect u{text-decoration:none;font-size:7.5px;letter-spacing:1px;padding:2px 4px;border:1px solid var(--accent-2,#ff4f92);color:var(--accent-2,#ff4f92)}
+.circuitSelect var{display:block;padding:6px 9px 8px;font-style:normal;font-size:8.5px;letter-spacing:1px;color:#aabfcb}
+.circuitSelect q{quotes:none;font-weight:700}.circuitSelect q.bronze{color:#d19a66}.circuitSelect q.silver{color:#dfe7ee}.circuitSelect q.gold{color:#ffd166}.circuitSelect q.none{color:#5f6f7c}
+#toast.moment{color:#fff;background:linear-gradient(90deg,var(--accent-2,#ff4f92)cc,#0b1221d0);border-left:3px solid #fff;font-weight:700;letter-spacing:2px;padding:11px 22px;font-size:15px}
+.boostReady .boostLabel{color:#fff4cf!important;text-shadow:0 0 12px #ffb04f}.boostReady .boostMeter i{box-shadow:0 0 18px #ffb04f}
+@media(max-width:900px){.circuitSelect{grid-template-columns:repeat(2,1fr)}.circuitSelect .thumb{height:60px}}
