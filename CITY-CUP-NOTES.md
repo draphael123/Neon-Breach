@@ -79,3 +79,6 @@ Improve it:
   players most want. That is the right pull, but Outlaw needs a human to confirm it is winnable.
 - The overview cinematic and podium orbit exist; what is still missing from the Mario Kart feel is a **standings screen
   between rounds with the cars on a grid**, and a fanfare when a rival overtakes you for the lead in the points.
+
+## Status
+All twelve circuit ideas and the Drift King title and grid standings shipped the same day. Still open from the cup-level notes: the points-lead fanfare.

@@ -5,14 +5,14 @@ export function buildReactions(W){
   const dist=(a,b)=>{let d=b-a;d-=Math.round(d);return d};
   const dummy=new THREE.Object3D();
   // ---- crowds: one cluster per apex zone and per brake corner, on the outside of the bend ----
-  const crowdSpots=[...driftZones.map(t=>({t,side:1})),...brakeCorners.map(c=>({t:c.t,side:c.dir>0?1:-1}))];
+  const crowdSpots=[...driftZones.map(t=>({t,side:1})),...brakeCorners.map(c=>({t:c.t,side:c.dir>0?1:-1})),...(W.riskRoutes||[]).filter(r=>(r.dy||0)>2).flatMap(r=>[.35,.65].map(u=>{const p=r.curve.getPointAt(u),v=r.curve.getTangentAt(u),h=Math.atan2(v.x,v.z);return{t:r.from+(r.to-r.from)*u,pos:{x:p.x+Math.cos(h)*(r.half-2.2),y:p.y,z:p.z-Math.sin(h)*(r.half-2.2),h}}}))];
   const skin=[0xf1c9a5,0xc68642,0x8d5524,0xffdbb4],tunic=[level.edgeA,level.edgeB,0xffc265,0xffffff,0x8a7dff];
   const crowds=crowdSpots.map((sp,ci)=>{
-    const n=22,lane=sp.side*(TRACK_HALF_WIDTH+4+Math.random()*3),g=onTrack(sp.t,lane),bodies=new THREE.InstancedMesh(new THREE.BoxGeometry(.5,1.1,.35),new THREE.MeshStandardMaterial({color:0xffffff,roughness:.8}),n),heads=new THREE.InstancedMesh(new THREE.BoxGeometry(.32,.32,.32),new THREE.MeshStandardMaterial({color:0xffffff,roughness:.8}),n);
+    const n=22,lane=sp.pos?0:sp.side*(TRACK_HALF_WIDTH+4+Math.random()*3),g=sp.pos?(()=>{const q=new THREE.Group();q.position.set(sp.pos.x,sp.pos.y,sp.pos.z);q.rotation.y=sp.pos.h;scene.add(q);return q})():onTrack(sp.t,lane),bodies=new THREE.InstancedMesh(new THREE.BoxGeometry(.5,1.1,.35),new THREE.MeshStandardMaterial({color:0xffffff,roughness:.8}),n),heads=new THREE.InstancedMesh(new THREE.BoxGeometry(.32,.32,.32),new THREE.MeshStandardMaterial({color:0xffffff,roughness:.8}),n);
     const base=[];for(let i=0;i<n;i++){const x=(i%6-2.5)*1.1+(Math.random()-.5)*.4,z=Math.floor(i/6)*1.2-2+(Math.random()-.5)*.4,h=.9+Math.random()*.3;base.push({x,z,h,phase:Math.random()*6,arm:Math.random()>.6});bodies.setColorAt(i,new THREE.Color(tunic[i%tunic.length]));heads.setColorAt(i,new THREE.Color(skin[i%skin.length]))}
     g.add(bodies);g.add(heads);const flashes=Array.from({length:4},(_,i)=>box(.25,.25,.25,(i-1.5)*2,1.9,-1,glow(0xffffff,4),g));flashes.forEach(f=>{f.visible=false;f.userData.road=true});
     // a low barrier in front of them
-    box(8,1,.3,0,.5,2.4,material(0x2a2f3a),g);box(8,.12,.34,0,1.02,2.4,sp.side>0?cyan:pink,g);
+    if(!sp.pos){box(8,1,.3,0,.5,2.4,material(0x2a2f3a),g);box(8,.12,.34,0,1.02,2.4,sp.side>0?cyan:pink,g)}
     return{t:sp.t,g,bodies,heads,base,flashes,lean:0,pose(now,lean){for(let i=0;i<n;i++){const b=base[i];const bob=Math.sin(now*.004+b.phase)*.04;dummy.position.set(b.x,b.h*.55+bob,b.z);dummy.rotation.set(-lean*.5,0,0);dummy.scale.set(1,b.h,1);dummy.updateMatrix();bodies.setMatrixAt(i,dummy.matrix);dummy.position.set(b.x,b.h*1.1+.2+bob+(b.arm?lean*.25:0),b.z-lean*.2);dummy.rotation.set(-lean*.5,0,0);dummy.scale.set(1,1,1);dummy.updateMatrix();heads.setMatrixAt(i,dummy.matrix)}bodies.instanceMatrix.needsUpdate=true;heads.instanceMatrix.needsUpdate=true}};
   });
   crowds.forEach(c=>c.pose(0,0));
